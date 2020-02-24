@@ -1,11 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Nav } from "react-bootstrap";
 
 const NavLink = props => {
   const { href, history, children } = props;
   return (
-    <Nav.Link
+    <div
       href={href}
       onClick={e => {
         e.preventDefault();
@@ -15,7 +14,7 @@ const NavLink = props => {
       }}
     >
       {children}
-    </Nav.Link>
+    </div>
   );
 };
 

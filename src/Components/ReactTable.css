@@ -1,0 +1,73 @@
+.pagination button {
+  background-color: burlywood;
+  border-radius: 3px;
+  border: 0;
+  color: white;
+  width: 3rem;
+  height: 2rem;
+  margin-right: 0.4rem;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+}
+
+.pagination button:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
+.pagination {
+  margin-top: 1rem;
+}
+
+.table-icon {
+  padding: 0.3rem;
+  border-radius: 4px;
+  color: white;
+}
+
+.table-icon:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+  cursor: pointer;
+}
+
+.table-icon-edit {
+  background-color: #fada5e;
+}
+
+.table-icon-delete {
+  background-color: #dc143c;
+  margin-left: 0.6rem;
+}
+
+.table-option {
+  margin-left: 1rem;
+  background-color: burlywood;
+  border-radius: 3px;
+  border: 0;
+  color: white;
+  height: 2rem;
+  margin-right: 0.4rem;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+}
+
+.table-option:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
+.table-page-no {
+  padding-top: 0.25rem;
+}
+
+.table-page-input {
+  border: 1px solid lightgray;
+  border-radius: 3px;
+}

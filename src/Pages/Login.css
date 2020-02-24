@@ -20,8 +20,7 @@
   font-weight: bold;
 }
 
-#login-navlink .nav-link {
-  padding: 0;
+.login-navlink {
   margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }

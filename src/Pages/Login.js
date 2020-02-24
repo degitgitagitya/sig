@@ -36,7 +36,7 @@ export default class Login extends Component {
                   placeholder="Password"
                 ></input>
               </div>
-              <div id="login-navlink">
+              <div className="login-navlink">
                 <NavLink href="/home">
                   <button className="btn btn-info form-control">Login</button>
                 </NavLink>

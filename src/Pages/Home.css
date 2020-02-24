@@ -28,3 +28,96 @@
   font-style: italic;
   color: #777777;
 }
+
+.content-box {
+  width: 99%;
+  background-color: white;
+  border: solid whitesmoke 2px;
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+}
+
+.home-left-title {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 2rem;
+  color: darkslategray;
+}
+
+.home-owner-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.home-image-box {
+  margin-top: 3rem;
+  margin-right: 5rem;
+  margin-left: 5rem;
+  background-color: whitesmoke;
+  border-radius: 50%;
+  padding: 1rem;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+}
+
+.home-owner-name {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  text-align: center;
+  font-weight: bold;
+  color: darkslategray;
+}
+
+.home-owner-email {
+  text-align: center;
+}
+
+.home-owner-email a {
+  color: darkslategray;
+}
+
+.home-owner-email:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+.home-owner-phone {
+  text-align: center;
+  color: darkslategray;
+}
+
+.home-sub-title {
+  font-weight: bolder;
+  font-size: 1.5rem;
+  color: darkslategray;
+}
+
+.home-sub-title-container {
+  color: darkslategray;
+  margin-top: 0.6rem;
+}
+
+.home-label {
+  display: inline-block;
+  width: 15rem;
+}
+
+.home-label-content {
+  display: inline-block;
+}
+
+.home-umkm-photo {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+  border: 10px solid whitesmoke;
+}

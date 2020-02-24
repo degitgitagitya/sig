@@ -1,6 +1,40 @@
 import React, { Component } from "react";
 
+import NavLink from "../Components/NavLink";
+
 import "./SideBar.css";
+
+const DATA_MENU = [
+  {
+    no: 1,
+    nama: "Beranda",
+    icon: "fa-home",
+    route: "/home"
+  },
+  {
+    no: 2,
+    nama: "Analisis",
+    icon: "fa-chart-pie",
+    route: "/analisis"
+  },
+  {
+    no: 3,
+    nama: "Prediksi",
+    icon: "fa-search",
+    route: "/prediksi"
+  }
+];
+
+const MenuContent = props => {
+  return (
+    <NavLink href={props.data.route}>
+      <div className="sidebar-content">
+        <i className={`fas ${props.data.icon} sidebar-content-icon`}></i>
+        {props.data.nama}
+      </div>
+    </NavLink>
+  );
+};
 
 export default class SideBar extends Component {
   render() {
@@ -25,19 +59,13 @@ export default class SideBar extends Component {
           </div>
         </div>
         <hr className="sidebar-line" />
-        <div className="sidebar-content">
-          <i className="fas fa-home sidebar-content-icon"></i>Beranda
-        </div>
-        <div className="sidebar-content">
-          <i className="fas fa-chart-pie sidebar-content-icon"></i>Analisis
-        </div>
-        <div className="sidebar-content">
-          <i className="fas fa-search sidebar-content-icon"></i>Prediksi
-        </div>
+        {DATA_MENU.map(data => {
+          return <MenuContent key={data.no} data={data}></MenuContent>;
+        })}
         <hr className="sidebar-line" />
-        <div className="sidebar-content">
-          <i className="fas fa-sign-out-alt sidebar-content-icon"></i>Logout
-        </div>
+        <MenuContent
+          data={{ route: "/", icon: "fa-sign-out-alt", nama: "Logout" }}
+        ></MenuContent>
       </div>
     );
   }
