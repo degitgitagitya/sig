@@ -1,0 +1,30 @@
+.content-container {
+  margin-left: 250px;
+  padding-left: 1.25rem;
+  padding-top: 1.25rem;
+  color: #111111;
+}
+
+.content-icon-container {
+  display: inline-block;
+  margin-right: 1.25rem;
+}
+
+.content-icon {
+  font-size: 2rem;
+}
+
+.content-text-container {
+  display: inline-block;
+}
+
+.content-title {
+  font-size: 2rem;
+}
+
+.content-desc {
+  font-size: 1rem;
+  font-weight: 100;
+  font-style: italic;
+  color: #777777;
+}
