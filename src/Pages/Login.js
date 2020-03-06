@@ -1,10 +1,63 @@
 import React, { Component } from "react";
-
-import NavLink from "../Components/NavLink";
+import { AuthContext } from "../Contexts/Authentication";
+import { withRouter } from "react-router-dom";
 
 import "./Login.css";
 
-export default class Login extends Component {
+class Login extends Component {
+  static contextType = AuthContext;
+
+  state = {
+    inputUsername: "",
+    inputPassword: "",
+    error: false,
+    errorMsg: ""
+  };
+
+  onChangeUsername = event => {
+    this.setState({
+      inputUsername: event.target.value
+    });
+  };
+
+  onChangePassword = event => {
+    this.setState({
+      inputPassword: event.target.value
+    });
+  };
+
+  handleClickLogin = () => {
+    fetch(
+      `http://127.0.0.1:5000/auth/${this.state.inputUsername}/${this.state.inputPassword}`
+    )
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        if (Object.entries(data).length === 0 && data.constructor === Object) {
+          this.toggleError("Wrong Username / Password");
+        } else {
+          this.context.changeAuthToTrue(this.state.inputUsername);
+          this.props.history.push("/home");
+        }
+      });
+  };
+
+  toggleError = msg => {
+    this.setState({
+      error: true,
+      errorMsg: msg
+    });
+  };
+
+  checkInput = () => {
+    if (this.state.inputPassword === "" || this.state.inputUsername === "") {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   render() {
     return (
       <div>
@@ -20,6 +73,8 @@ export default class Login extends Component {
                 </div>
                 <input
                   type="text"
+                  value={this.state.inputUsername}
+                  onChange={this.onChangeUsername}
                   className="form-control"
                   placeholder="Username"
                 ></input>
@@ -32,14 +87,32 @@ export default class Login extends Component {
                 </div>
                 <input
                   type="password"
+                  value={this.state.inputPassword}
+                  onChange={this.onChangePassword}
                   className="form-control"
                   placeholder="Password"
                 ></input>
               </div>
+              {this.state.error ? (
+                <div className="login-error text-left">
+                  {this.state.errorMsg}
+                </div>
+              ) : (
+                <br></br>
+              )}
               <div className="login-navlink">
-                <NavLink href="/home">
-                  <button className="btn btn-info form-control">Login</button>
-                </NavLink>
+                <button
+                  onClick={() => {
+                    if (this.checkInput() === true) {
+                      this.handleClickLogin(this.props);
+                    } else {
+                      this.toggleError("Fill Username & Password");
+                    }
+                  }}
+                  className="btn btn-info form-control"
+                >
+                  Login
+                </button>
               </div>
             </div>
           </div>
@@ -48,3 +121,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default withRouter(Login);

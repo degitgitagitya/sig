@@ -3,124 +3,84 @@ import React, { Component } from "react";
 import SideBar from "../Components/SideBar";
 import ReactTable from "../Components/ReactTable";
 
+import { AuthContext } from "../Contexts/Authentication";
+import { withRouter } from "react-router-dom";
+
 import "./Home.css";
 import "./Prediksi.css";
 
-const DATA_HEAD = [
-  {
-    Header: "Data Barang",
-    columns: [
-      {
-        Header: "No",
-        accessor: "no",
-        sortType: "basic"
-      },
-      {
-        Header: "Kode Barang",
-        accessor: "kode",
-        sortType: "basic"
-      },
-      {
-        Header: "Nama",
-        accessor: "nama",
-        sortType: "basic"
-      },
-      {
-        Header: "Jumlah Stock Awal",
-        accessor: "beli",
-        sortType: "basic"
-      },
-      {
-        Header: "Jumlah Terjual",
-        accessor: "jual",
-        sortType: "basic"
-      }
-    ]
-  }
-];
+class Prediksi extends Component {
+  static contextType = AuthContext;
 
-const DATA_TABLE = [
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
-  },
-  {
-    no: 1,
-    kode: "B001",
-    nama: "Alvin",
-    beli: 10,
-    jual: 5
+  constructor(props) {
+    super(props);
   }
-];
 
-export default class Prediksi extends Component {
+  state = {
+    tableHead: [],
+    tableData: []
+  };
+
+  componentDidMount() {
+    fetch(`http://127.0.0.1:5000/barangs/${this.context.username}`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        let dataTemp = [];
+
+        data.map((data, index) => {
+          let x = {
+            no: index + 1,
+            kode: data.kode,
+            nama: data.nama,
+            lokasi: data.lokasi
+          };
+
+          dataTemp.push(x);
+        });
+
+        this.setState({
+          tableHead: [
+            {
+              Header: "Data Barang",
+              columns: [
+                {
+                  Header: "No",
+                  accessor: "no",
+                  sortType: "basic"
+                },
+                {
+                  Header: "Kode Barang",
+                  accessor: "kode",
+                  sortType: "basic"
+                },
+                {
+                  Header: "Nama",
+                  accessor: "nama",
+                  sortType: "basic"
+                },
+                {
+                  Header: "Lokasi",
+                  accessor: "lokasi",
+                  sortType: "basic"
+                }
+              ]
+            }
+          ],
+          tableData: dataTemp
+        });
+
+        console.log(data);
+      });
+  }
+
   render() {
+    {
+      if (this.context.isAuth === false) {
+        this.props.history.push("/");
+      }
+    }
     return (
       <div>
         <SideBar />
@@ -142,8 +102,8 @@ export default class Prediksi extends Component {
               </button>
             </div>
             <ReactTable
-              head={DATA_HEAD}
-              body={DATA_TABLE.concat(DATA_TABLE)}
+              head={this.state.tableHead}
+              body={this.state.tableData}
             ></ReactTable>
             <div className="prediksi-button-container-bottom">
               <button className="prediksi-button-bottom">
@@ -157,3 +117,5 @@ export default class Prediksi extends Component {
     );
   }
 }
+
+export default withRouter(Prediksi);

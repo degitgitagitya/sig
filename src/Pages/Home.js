@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { AuthContext } from "../Contexts/Authentication";
+import { withRouter } from "react-router-dom";
 
 import ImgPemilik from "../assets/foto-pemilik.jpg";
 import ImgUMKM from "../assets/bebek-goreng.jpg";
@@ -7,8 +9,15 @@ import SideBar from "../Components/SideBar";
 
 import "./Home.css";
 
-export default class Home extends Component {
+class Home extends Component {
+  static contextType = AuthContext;
+
   render() {
+    {
+      if (this.context.isAuth === false) {
+        this.props.history.push("/");
+      }
+    }
     return (
       <div>
         <SideBar />
@@ -48,7 +57,6 @@ export default class Home extends Component {
                     <div className="home-owner-phone">5555-555-55</div>
                   </div>
                 </div>
-                <hr />
               </div>
             </div>
             <div className="col-8">
@@ -101,3 +109,5 @@ export default class Home extends Component {
     );
   }
 }
+
+export default withRouter(Home);
