@@ -46,3 +46,40 @@
   cursor: pointer;
   background-color: #1183ca;
 }
+
+.prediksi-button-delete {
+  display: inline-block;
+  border: none;
+  background-color: red;
+  color: white;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+  border-radius: 3px;
+  width: 4rem;
+}
+
+.prediksi-button-delete:hover {
+  cursor: pointer;
+  background-color: #7a0909;
+}
+
+.prediksi-button-edit {
+  display: inline-block;
+  border: none;
+  background-color: orange;
+  color: white;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+  border-radius: 3px;
+  margin-left: 0.5rem;
+  width: 4rem;
+}
+
+.prediksi-button-edit:hover {
+  cursor: pointer;
+  background-color: #925300;
+}

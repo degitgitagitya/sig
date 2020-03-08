@@ -14,6 +14,12 @@ class Login extends Component {
     errorMsg: ""
   };
 
+  setModalShow = x => {
+    this.setState({
+      modalShow: x
+    });
+  };
+
   onChangeUsername = event => {
     this.setState({
       inputUsername: event.target.value
@@ -41,6 +47,12 @@ class Login extends Component {
           this.props.history.push("/home");
         }
       });
+  };
+
+  handleKeyPress = event => {
+    if (event.key === "Enter") {
+      this.handleClickLogin();
+    }
   };
 
   toggleError = msg => {
@@ -77,6 +89,7 @@ class Login extends Component {
                   onChange={this.onChangeUsername}
                   className="form-control"
                   placeholder="Username"
+                  onKeyPress={this.handleKeyPress}
                 ></input>
               </div>
               <div className="input-group mt-4">
@@ -91,6 +104,7 @@ class Login extends Component {
                   onChange={this.onChangePassword}
                   className="form-control"
                   placeholder="Password"
+                  onKeyPress={this.handleKeyPress}
                 ></input>
               </div>
               {this.state.error ? (

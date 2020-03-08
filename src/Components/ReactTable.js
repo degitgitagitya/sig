@@ -53,7 +53,6 @@ function Table({ columns, data }) {
                   </span>
                 </th>
               ))}
-              {index === 0 ? <th></th> : <th>Action</th>}
             </tr>
           ))}
         </thead>
@@ -67,14 +66,6 @@ function Table({ columns, data }) {
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   );
                 })}
-                <td>
-                  <span className="table-icon table-icon-edit">
-                    <i className="fas fa-edit"></i>
-                  </span>
-                  <span className="table-icon table-icon-delete">
-                    <i className="fas fa-trash"></i>
-                  </span>
-                </td>
               </tr>
             );
           })}

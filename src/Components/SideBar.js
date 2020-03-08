@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import NavLink from "../Components/NavLink";
 
+import { AuthContext } from "../Contexts/Authentication";
+
 import "./SideBar.css";
 
 const DATA_MENU = [
@@ -37,17 +39,22 @@ const MenuContent = props => {
 };
 
 export default class SideBar extends Component {
+  static contextType = AuthContext;
   render() {
     return (
       <div className="sidebar-container">
         <div className="sidebar-user">
           <div className="row">
             <div className="col-3">
-              <div className="sidebar-icon-user">D</div>
+              <div className="sidebar-icon-user">
+                {this.context.username.charAt(0).toUpperCase()}
+              </div>
             </div>
             <div className="col-9">
               <div className="row">
-                <div className="col-12 sidebar-user-name">Detya</div>
+                <div className="col-12 sidebar-user-name">
+                  {this.context.username}
+                </div>
               </div>
               <div className="row">
                 <div className="col-12 sidebar-user-status">
