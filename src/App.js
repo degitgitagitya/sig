@@ -7,6 +7,7 @@ import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Analisis from "./Pages/Analisis";
 import Prediksi from "./Pages/Prediksi";
+import NotFound from "./Pages/NotFound";
 
 export default class App extends Component {
   render() {
@@ -22,7 +23,7 @@ export default class App extends Component {
             <Route exact path="/prediksi">
               <Prediksi />
             </Route>
-            <Route path="*" component={() => "404 NOT FOUND"} />
+            <Route path="*" component={() => <NotFound />} />
           </Switch>
         </Authentication>
       </Router>

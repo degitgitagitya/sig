@@ -40,6 +40,11 @@ const MenuContent = props => {
 
 export default class SideBar extends Component {
   static contextType = AuthContext;
+
+  onClickLogout = () => {
+    this.context.changeAuthToFalse();
+  };
+
   render() {
     return (
       <div className="sidebar-container">
@@ -70,9 +75,10 @@ export default class SideBar extends Component {
           return <MenuContent key={data.no} data={data}></MenuContent>;
         })}
         <hr className="sidebar-line" />
-        <MenuContent
-          data={{ route: "/", icon: "fa-sign-out-alt", nama: "Logout" }}
-        ></MenuContent>
+        <div onClick={this.onClickLogout} className="sidebar-content">
+          <i className={`fas fa-sign-out-alt sidebar-content-icon`}></i>
+          Logout
+        </div>
       </div>
     );
   }
