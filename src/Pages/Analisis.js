@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Doughnut, Pie, Line, Radar } from "react-chartjs-2";
 import { AuthContext } from "../Contexts/Authentication";
-import { withRouter } from "react-router-dom";
 
 import SideBar from "../Components/SideBar";
 
@@ -39,11 +38,6 @@ const DATA_CHART = [
 class Analisis extends Component {
   static contextType = AuthContext;
   render() {
-    {
-      if (this.context.isAuth === false) {
-        this.props.history.push("/");
-      }
-    }
     return (
       <div>
         <SideBar />
@@ -86,4 +80,4 @@ class Analisis extends Component {
   }
 }
 
-export default withRouter(Analisis);
+export default Analisis;

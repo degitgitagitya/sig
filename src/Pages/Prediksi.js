@@ -5,7 +5,6 @@ import SideBar from "../Components/SideBar";
 import ReactTable from "../Components/ReactTable";
 
 import { AuthContext } from "../Contexts/Authentication";
-import { withRouter } from "react-router-dom";
 
 import "./Home.css";
 import "./Prediksi.css";
@@ -410,11 +409,6 @@ class Prediksi extends Component {
   };
 
   render() {
-    {
-      if (this.context.isAuth === false) {
-        this.props.history.push("/");
-      }
-    }
     return (
       <div>
         <SideBar />
@@ -475,4 +469,4 @@ class Prediksi extends Component {
   }
 }
 
-export default withRouter(Prediksi);
+export default Prediksi;

@@ -8,6 +8,7 @@ import Home from "./Pages/Home";
 import Analisis from "./Pages/Analisis";
 import Prediksi from "./Pages/Prediksi";
 import NotFound from "./Pages/NotFound";
+import { ProtectedRoute } from "./Components/ProtectedRoute";
 
 export default class App extends Component {
   render() {
@@ -16,13 +17,21 @@ export default class App extends Component {
         <Authentication>
           <Switch>
             <Route exact path="/" render={() => <Login></Login>}></Route>
-            <Route exact path="/home" render={() => <Home></Home>}></Route>
-            <Route exact path="/analisis">
-              <Analisis />
-            </Route>
-            <Route exact path="/prediksi">
-              <Prediksi />
-            </Route>
+            <ProtectedRoute
+              exact
+              path="/home"
+              component={Home}
+            ></ProtectedRoute>
+            <ProtectedRoute
+              exact
+              path="/analisis"
+              component={Analisis}
+            ></ProtectedRoute>
+            <ProtectedRoute
+              exact
+              path="/prediksi"
+              component={Prediksi}
+            ></ProtectedRoute>
             <Route path="*" component={() => <NotFound />} />
           </Switch>
         </Authentication>

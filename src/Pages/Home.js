@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { AuthContext } from "../Contexts/Authentication";
-import { withRouter } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 
 import SideBar from "../Components/SideBar";
@@ -334,11 +333,6 @@ class Home extends Component {
   }
 
   render() {
-    {
-      if (this.context.isAuth === false) {
-        this.props.history.push("/");
-      }
-    }
     return (
       <div>
         <SideBar />
@@ -437,4 +431,4 @@ class Home extends Component {
   }
 }
 
-export default withRouter(Home);
+export default Home;

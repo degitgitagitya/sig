@@ -19,7 +19,7 @@ export default class NotFound extends Component {
               changed or is temporarily unavailable.
             </p>
             <NavLink href="/">
-              <a>Go To Homepage</a>
+              <div>Go To Homepage</div>
             </NavLink>
           </div>
         </div>
