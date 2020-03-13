@@ -17,6 +17,18 @@ class ModalEnd extends Component {
     inputAlamat: ""
   };
 
+  changeAllState = (nama, email, telfon, url, namaUmkm, kategori, alamat) => {
+    this.setState({
+      inputNamaPemilik: nama,
+      inputEmail: email,
+      inputTelfon: telfon,
+      inputUrl: url,
+      inputNamaUmkm: namaUmkm,
+      inputKategori: kategori,
+      inputAlamat: alamat
+    });
+  };
+
   changeInputNamaPemilik = event => {
     this.setState({
       inputNamaPemilik: event.target.value
@@ -67,27 +79,6 @@ class ModalEnd extends Component {
     let store_category = this.state.inputKategori;
     let store_address = this.state.inputAlamat;
     let url_photo = this.state.inputUrl;
-    if (nama === "") {
-      nama = this.props.name;
-    }
-    if (email === "") {
-      email = this.props.email;
-    }
-    if (phone === "") {
-      phone = this.props.phone;
-    }
-    if (store_name === "") {
-      store_name = this.props.store_name;
-    }
-    if (store_category === "") {
-      store_category = this.props.store_category;
-    }
-    if (store_address === "") {
-      store_address = this.props.store_address;
-    }
-    if (url_photo === "") {
-      url_photo = this.props.url_photo;
-    }
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -142,11 +133,7 @@ class ModalEnd extends Component {
                 type="text"
                 className="form-control"
                 placeholder="Nama Pemilik"
-                value={
-                  this.state.inputNamaPemilik === ""
-                    ? this.props.name
-                    : this.state.inputNamaPemilik
-                }
+                value={this.state.inputNamaPemilik}
                 onChange={this.changeInputNamaPemilik}
               />
               <label htmlFor="email-pemilik" className="mt-3">
@@ -157,11 +144,7 @@ class ModalEnd extends Component {
                 type="email"
                 className="form-control"
                 placeholder="Email Pemilik"
-                value={
-                  this.state.inputEmail === ""
-                    ? this.props.email
-                    : this.state.inputEmail
-                }
+                value={this.state.inputEmail}
                 onChange={this.changeInputEmail}
               />
               <label htmlFor="no-pemilik" className="mt-3">
@@ -172,11 +155,7 @@ class ModalEnd extends Component {
                 type="number"
                 className="form-control"
                 placeholder="No Telfon"
-                value={
-                  this.state.inputTelfon === ""
-                    ? this.props.phone
-                    : this.state.inputTelfon
-                }
+                value={this.state.inputTelfon}
                 onChange={this.changeInputTelfon}
               />
               <label htmlFor="url-photo" className="mt-3">
@@ -187,11 +166,7 @@ class ModalEnd extends Component {
                 type="text"
                 className="form-control"
                 placeholder="URL Photo"
-                value={
-                  this.state.inputUrl === ""
-                    ? this.props.url_photo
-                    : this.state.inputUrl
-                }
+                value={this.state.inputUrl}
                 onChange={this.changeInputUrl}
               />
             </div>
@@ -204,11 +179,7 @@ class ModalEnd extends Component {
                 type="text"
                 className="form-control"
                 placeholder="Nama UMKM"
-                value={
-                  this.state.inputNamaUmkm === ""
-                    ? this.props.store_name
-                    : this.state.inputNamaUmkm
-                }
+                value={this.state.inputNamaUmkm}
                 onChange={this.changeInputNamaUmkm}
               />
               <label htmlFor="kategori-umkm" className="mt-3">
@@ -219,11 +190,7 @@ class ModalEnd extends Component {
                 type="text"
                 className="form-control"
                 placeholder="Kategori"
-                value={
-                  this.state.inputKategori === ""
-                    ? this.props.store_category
-                    : this.state.inputKategori
-                }
+                value={this.state.inputKategori}
                 onChange={this.changeInputKategori}
               />
               <label htmlFor="alamat-umkm" className="mt-3">
@@ -234,11 +201,7 @@ class ModalEnd extends Component {
                 type="text"
                 className="form-control"
                 placeholder="Alamat UMKM"
-                value={
-                  this.state.inputAlamat === ""
-                    ? this.props.store_address
-                    : this.state.inputAlamat
-                }
+                value={this.state.inputAlamat}
                 onChange={this.changeInputAlamat}
               />
             </div>
@@ -277,8 +240,13 @@ class ModalEnd extends Component {
   }
 }
 
-class Home extends Component {
+export default class Home extends Component {
   static contextType = AuthContext;
+
+  constructor(props) {
+    super(props);
+    this.modalElement = React.createRef();
+  }
 
   state = {
     id: "",
@@ -291,6 +259,27 @@ class Home extends Component {
     urlPhoto: "",
     modalShow: false,
     setModalShow: false
+  };
+
+  handleClickChangeChild = () => {
+    const {
+      name,
+      email,
+      phone,
+      storeName,
+      storeCategory,
+      storeAddress,
+      urlPhoto
+    } = this.state;
+    this.modalElement.current.changeAllState(
+      name,
+      email,
+      phone,
+      urlPhoto,
+      storeName,
+      storeCategory,
+      storeAddress
+    );
   };
 
   setModalShow = x => {
@@ -403,12 +392,16 @@ class Home extends Component {
                   <div className="col-3">
                     <button
                       className="btn form-control btn-warning text-white"
-                      onClick={() => this.setModalShow(true)}
+                      onClick={() => {
+                        this.setModalShow(true);
+                        this.handleClickChangeChild();
+                      }}
                     >
                       Edit Informasi
                     </button>
 
                     <ModalEnd
+                      ref={this.modalElement}
                       show={this.state.modalShow}
                       onHide={() => this.setModalShow(false)}
                       id={this.state.id}
@@ -430,5 +423,3 @@ class Home extends Component {
     );
   }
 }
-
-export default Home;

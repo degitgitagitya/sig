@@ -16,6 +16,14 @@ class ModalEnd extends Component {
     inputLokasi: ""
   };
 
+  changeAllState = (kode, barang, lokasi) => {
+    this.setState({
+      inputKode: kode,
+      inputBarang: barang,
+      inputLokasi: lokasi
+    });
+  };
+
   changeKode = event => {
     this.setState({
       inputKode: event.target.value
@@ -92,29 +100,11 @@ class ModalEnd extends Component {
   handleKeyPressPrediksi = (event, check) => {
     if (event.key === "Enter") {
       if (check === "edit") {
-        let kode;
-        let nama;
-        let lokasi;
-        if (this.state.inputKode === "") {
-          kode = this.props.kodebarang;
-        } else {
-          kode = this.state.inputKode;
-        }
-        if (this.state.inputBarang === "") {
-          nama = this.props.namabarang;
-        } else {
-          nama = this.state.inputBarang;
-        }
-        if (this.state.inputLokasi === "") {
-          lokasi = this.props.lokasibarang;
-        } else {
-          lokasi = this.state.inputLokasi;
-        }
         this.onClickEdit(
           this.props.idbarang,
-          kode,
-          nama,
-          lokasi,
+          this.state.inputKode,
+          this.state.inputBarang,
+          this.state.inputLokasi,
           this.props.username
         );
       } else {
@@ -147,11 +137,7 @@ class ModalEnd extends Component {
             className="form-control mb-3"
             placeholder="Kode Barang"
             onChange={this.changeKode}
-            value={
-              this.state.inputKode === ""
-                ? this.props.kodebarang
-                : this.state.inputKode
-            }
+            value={this.state.inputKode}
             onKeyPress={e => {
               let x = "";
               if (this.props.isedit === "true") {
@@ -168,11 +154,7 @@ class ModalEnd extends Component {
             className="form-control mb-3"
             placeholder="Nama Barang"
             onChange={this.changeBarang}
-            value={
-              this.state.inputBarang === ""
-                ? this.props.namabarang
-                : this.state.inputBarang
-            }
+            value={this.state.inputBarang}
             onKeyPress={e => {
               let x = "";
               if (this.props.isedit === "true") {
@@ -189,11 +171,7 @@ class ModalEnd extends Component {
             className="form-control "
             placeholder="Lokasi Pembelian"
             onChange={this.changeLokasi}
-            value={
-              this.state.inputLokasi === ""
-                ? this.props.lokasibarang
-                : this.state.inputLokasi
-            }
+            value={this.state.inputLokasi}
             onKeyPress={e => {
               let x = "";
               if (this.props.isedit === "true") {
@@ -263,8 +241,13 @@ class ModalEnd extends Component {
   }
 }
 
-class Prediksi extends Component {
+export default class Prediksi extends Component {
   static contextType = AuthContext;
+
+  constructor(props) {
+    super(props);
+    this.modalElement = React.createRef();
+  }
 
   state = {
     tableHead: [],
@@ -279,6 +262,10 @@ class Prediksi extends Component {
     tempLokasi: ""
   };
 
+  handleClickChangeChild = (kode, nama, lokasi) => {
+    this.modalElement.current.changeAllState(kode, nama, lokasi);
+  };
+
   setTempData = (id, kode, nama, lokasi) => {
     this.setState({
       tempId: id,
@@ -286,7 +273,7 @@ class Prediksi extends Component {
       tempNama: nama,
       tempLokasi: lokasi
     });
-
+    this.handleClickChangeChild(kode, nama, lokasi);
     this.setModalShowEdit(true);
   };
 
@@ -441,6 +428,7 @@ class Prediksi extends Component {
                 lokasibarang=""
               />
               <ModalEnd
+                ref={this.modalElement}
                 username={this.context.username}
                 show={this.state.modalShowEdit}
                 onHide={() => this.setModalShowEdit(false)}
@@ -468,5 +456,3 @@ class Prediksi extends Component {
     );
   }
 }
-
-export default Prediksi;

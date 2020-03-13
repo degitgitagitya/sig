@@ -35,7 +35,7 @@ const DATA_CHART = [
   }
 ];
 
-class Analisis extends Component {
+export default class Analisis extends Component {
   static contextType = AuthContext;
   render() {
     return (
@@ -79,5 +79,3 @@ class Analisis extends Component {
     );
   }
 }
-
-export default Analisis;
