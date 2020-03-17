@@ -250,7 +250,73 @@ export default class Prediksi extends Component {
   }
 
   state = {
-    tableHead: [],
+    tableHead: [
+      {
+        Header: "Data Barang",
+        columns: [
+          {
+            Header: "No",
+            Cell: ({ row }) => <div>{row.index + 1}</div>
+          },
+          ,
+          {
+            Header: "Kode Barang",
+            accessor: "kode",
+            sortType: "basic"
+          },
+          {
+            Header: "Nama",
+            accessor: "nama",
+            sortType: "basic"
+          },
+          {
+            Header: "Lokasi",
+            accessor: "lokasi",
+            sortType: "basic"
+          },
+          {
+            Header: "Action",
+            accessor: "id",
+            Cell: ({ row }) => (
+              <div>
+                <button
+                  className="prediksi-button-delete"
+                  onClick={() => {
+                    let requestOptions = {
+                      method: "DELETE",
+                      redirect: "follow"
+                    };
+
+                    fetch(
+                      `http://127.0.0.1:5000/barang/${row.original.id}`,
+                      requestOptions
+                    )
+                      .then(response => response.text())
+                      .then(result => this.fetchData())
+                      .catch(error => console.log("error", error));
+                  }}
+                >
+                  Delete
+                </button>
+                <button
+                  className="prediksi-button-edit"
+                  onClick={() => {
+                    this.setTempData(
+                      row.original.id,
+                      row.original.kode,
+                      row.original.nama,
+                      row.original.lokasi
+                    );
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
+            )
+          }
+        ]
+      }
+    ],
     tableData: [],
     modalShow: false,
     setModalShow: false,
@@ -301,96 +367,12 @@ export default class Prediksi extends Component {
 
   fetchData = () => {
     fetch(`http://127.0.0.1:5000/barangs/${this.context.username}`)
-      // fetch(`http://127.0.0.1:5000/barangs/detya`)
       .then(response => {
         return response.json();
       })
       .then(data => {
-        let dataTemp = [];
-
-        data.map((data, index) => {
-          let x = {
-            no: index + 1,
-            id: data.id,
-            kode: data.kode,
-            nama: data.nama,
-            lokasi: data.lokasi
-          };
-
-          dataTemp.push(x);
-
-          return true;
-        });
-
         this.setState({
-          tableHead: [
-            {
-              Header: "Data Barang",
-              columns: [
-                {
-                  Header: "No",
-                  accessor: "no",
-                  sortType: "basic"
-                },
-                {
-                  Header: "Kode Barang",
-                  accessor: "kode",
-                  sortType: "basic"
-                },
-                {
-                  Header: "Nama",
-                  accessor: "nama",
-                  sortType: "basic"
-                },
-                {
-                  Header: "Lokasi",
-                  accessor: "lokasi",
-                  sortType: "basic"
-                },
-                {
-                  Header: "Action",
-                  accessor: "id",
-                  Cell: ({ row }) => (
-                    <div>
-                      <button
-                        className="prediksi-button-delete"
-                        onClick={() => {
-                          let requestOptions = {
-                            method: "DELETE",
-                            redirect: "follow"
-                          };
-
-                          fetch(
-                            `http://127.0.0.1:5000/barang/${row.original.id}`,
-                            requestOptions
-                          )
-                            .then(response => response.text())
-                            .then(result => this.fetchData())
-                            .catch(error => console.log("error", error));
-                        }}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        className="prediksi-button-edit"
-                        onClick={() => {
-                          this.setTempData(
-                            row.original.id,
-                            row.original.kode,
-                            row.original.nama,
-                            row.original.lokasi
-                          );
-                        }}
-                      >
-                        Edit
-                      </button>
-                    </div>
-                  )
-                }
-              ]
-            }
-          ],
-          tableData: dataTemp
+          tableData: data
         });
       });
   };
