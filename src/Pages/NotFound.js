@@ -21,6 +21,9 @@ export default class NotFound extends Component {
             <NavLink href="/">
               <div>Go To Homepage</div>
             </NavLink>
+            <a href="https://colorlib.com/wp/free-404-error-page-templates/">
+              Template By ColorLib
+            </a>
           </div>
         </div>
       </div>
