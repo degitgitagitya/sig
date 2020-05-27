@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { AuthContext } from "../Contexts/Authentication";
 import { Modal } from "react-bootstrap";
 
-import SideBar from "../Components/SideBar";
+import Container from "../Components/Container";
 
 import "./Home.css";
 
@@ -14,7 +14,7 @@ class ModalEnd extends Component {
     inputUrl: "",
     inputNamaUmkm: "",
     inputKategori: "",
-    inputAlamat: ""
+    inputAlamat: "",
   };
 
   changeAllState = (nama, email, telfon, url, namaUmkm, kategori, alamat) => {
@@ -25,49 +25,49 @@ class ModalEnd extends Component {
       inputUrl: url,
       inputNamaUmkm: namaUmkm,
       inputKategori: kategori,
-      inputAlamat: alamat
+      inputAlamat: alamat,
     });
   };
 
-  changeInputNamaPemilik = event => {
+  changeInputNamaPemilik = (event) => {
     this.setState({
-      inputNamaPemilik: event.target.value
+      inputNamaPemilik: event.target.value,
     });
   };
 
-  changeInputEmail = event => {
+  changeInputEmail = (event) => {
     this.setState({
-      inputEmail: event.target.value
+      inputEmail: event.target.value,
     });
   };
 
-  changeInputTelfon = event => {
+  changeInputTelfon = (event) => {
     this.setState({
-      inputTelfon: event.target.value
+      inputTelfon: event.target.value,
     });
   };
 
-  changeInputUrl = event => {
+  changeInputUrl = (event) => {
     this.setState({
-      inputUrl: event.target.value
+      inputUrl: event.target.value,
     });
   };
 
-  changeInputNamaUmkm = event => {
+  changeInputNamaUmkm = (event) => {
     this.setState({
-      inputNamaUmkm: event.target.value
+      inputNamaUmkm: event.target.value,
     });
   };
 
-  changeInputKategori = event => {
+  changeInputKategori = (event) => {
     this.setState({
-      inputKategori: event.target.value
+      inputKategori: event.target.value,
     });
   };
 
-  changeInputAlamat = event => {
+  changeInputAlamat = (event) => {
     this.setState({
-      inputAlamat: event.target.value
+      inputAlamat: event.target.value,
     });
   };
 
@@ -90,20 +90,20 @@ class ModalEnd extends Component {
       store_address: store_address,
       store_category: store_category,
       store_name: store_name,
-      url_photo: url_photo
+      url_photo: url_photo,
     });
 
     const requestOptions = {
       method: "PUT",
       headers: myHeaders,
       body: raw,
-      redirect: "follow"
+      redirect: "follow",
     };
 
     fetch(`http://127.0.0.1:5000/information/${this.props.id}`, requestOptions)
-      .then(response => response.text())
-      .then(result => this.props.onHide())
-      .catch(error => console.log("error", error));
+      .then((response) => response.text())
+      .then((result) => this.props.onHide())
+      .catch((error) => console.log("error", error));
   };
 
   render() {
@@ -227,7 +227,7 @@ class ModalEnd extends Component {
                 inputNamaUmkm: "",
                 inputKategori: "",
                 inputAlamat: "",
-                inputUrl: ""
+                inputUrl: "",
               });
               this.props.onHide();
             }}
@@ -258,7 +258,7 @@ export default class Home extends Component {
     storeAddress: "",
     urlPhoto: "",
     modalShow: false,
-    setModalShow: false
+    setModalShow: false,
   };
 
   handleClickChangeChild = () => {
@@ -269,7 +269,7 @@ export default class Home extends Component {
       storeName,
       storeCategory,
       storeAddress,
-      urlPhoto
+      urlPhoto,
     } = this.state;
     this.modalElement.current.changeAllState(
       name,
@@ -282,9 +282,9 @@ export default class Home extends Component {
     );
   };
 
-  setModalShow = x => {
+  setModalShow = (x) => {
     this.setState({
-      modalShow: x
+      modalShow: x,
     });
     if (x === false) {
       this.fetchInformation();
@@ -294,15 +294,15 @@ export default class Home extends Component {
   fetchInformation = () => {
     const requestOptions = {
       method: "GET",
-      redirect: "follow"
+      redirect: "follow",
     };
 
     fetch(
       `http://127.0.0.1:5000/information/${this.context.username}`,
       requestOptions
     )
-      .then(response => response.json())
-      .then(result => {
+      .then((response) => response.json())
+      .then((result) => {
         this.setState({
           id: result.id,
           name: result.nama,
@@ -311,10 +311,10 @@ export default class Home extends Component {
           storeName: result.store_name,
           storeCategory: result.store_category,
           storeAddress: result.store_address,
-          urlPhoto: result.url_photo
+          urlPhoto: result.url_photo,
         });
       })
-      .catch(error => console.log("error", error));
+      .catch((error) => console.log("error", error));
   };
 
   componentDidMount() {
@@ -323,103 +323,92 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div>
-        <SideBar />
-        <div className="content-container">
-          <div className="content-icon-container">
-            <i className="fas fa-home content-icon"></i>
-          </div>
-          <div className="content-text-container">
-            <div className="content-title">
-              /Beranda <span className="content-desc">Informasi General</span>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4">
-              <div className="content-box">
-                <div className="home-left-title">Informasi Pemilik</div>
-                <div className="row">
-                  <div className="col-12">
-                    <div className="home-image-box">
-                      <img
-                        className="img-fluid home-owner-photo"
-                        src={this.state.urlPhoto}
-                        alt="foto-pemilik"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-12">
-                    <div className="home-owner-name">{this.state.name}</div>
-                    <div className="home-owner-email">
-                      <a href="mailto:afgan@gmail.com" className=" text-center">
-                        {this.state.email}
-                      </a>
-                    </div>
-
-                    <div className="home-owner-phone">{this.state.phone}</div>
+      <Container title={"Beranda"} desc={"Informasi General"}>
+        <div className="row">
+          <div className="col-4">
+            <div className="content-box">
+              <div className="home-left-title">Informasi Pemilik</div>
+              <div className="row">
+                <div className="col-12">
+                  <div className="home-image-box">
+                    <img
+                      className="img-fluid home-owner-photo"
+                      src={this.state.urlPhoto}
+                      alt="foto-pemilik"
+                    />
                   </div>
                 </div>
               </div>
+              <div className="row">
+                <div className="col-12">
+                  <div className="home-owner-name">{this.state.name}</div>
+                  <div className="home-owner-email">
+                    <a href="mailto:afgan@gmail.com" className=" text-center">
+                      {this.state.email}
+                    </a>
+                  </div>
+
+                  <div className="home-owner-phone">{this.state.phone}</div>
+                </div>
+              </div>
             </div>
-            <div className="col-8">
-              <div className="content-box">
-                <div className="home-left-title">Informasi UMKM</div>
+          </div>
+          <div className="col-8">
+            <div className="content-box">
+              <div className="home-left-title">Informasi UMKM</div>
 
-                <hr />
-                <div className="home-sub-title">Detail UMKM</div>
-                <div className="home-sub-title-container">
-                  <div className="home-label">Nama</div>
-                  <div className="home-label-content">
-                    : {this.state.storeName}
-                  </div>
+              <hr />
+              <div className="home-sub-title">Detail UMKM</div>
+              <div className="home-sub-title-container">
+                <div className="home-label">Nama</div>
+                <div className="home-label-content">
+                  : {this.state.storeName}
                 </div>
-                <div className="home-sub-title-container">
-                  <div className="home-label">Jenis Usaha</div>
-                  <div className="home-label-content">
-                    : {this.state.storeCategory}
-                  </div>
+              </div>
+              <div className="home-sub-title-container">
+                <div className="home-label">Jenis Usaha</div>
+                <div className="home-label-content">
+                  : {this.state.storeCategory}
                 </div>
-                <div className="home-sub-title-container">
-                  <div className="home-label">Alamat</div>
-                  <div className="home-label-content">
-                    : {this.state.storeAddress}
-                  </div>
+              </div>
+              <div className="home-sub-title-container">
+                <div className="home-label">Alamat</div>
+                <div className="home-label-content">
+                  : {this.state.storeAddress}
                 </div>
-                <hr />
-                <div className="row justify-content-center">
-                  <div className="col-3">
-                    <button
-                      className="btn form-control btn-warning text-white"
-                      onClick={() => {
-                        this.setModalShow(true);
-                        this.handleClickChangeChild();
-                      }}
-                    >
-                      Edit Informasi
-                    </button>
+              </div>
+              <hr />
+              <div className="row justify-content-center">
+                <div className="col-3">
+                  <button
+                    className="btn form-control btn-warning text-white"
+                    onClick={() => {
+                      this.setModalShow(true);
+                      this.handleClickChangeChild();
+                    }}
+                  >
+                    Edit Informasi
+                  </button>
 
-                    <ModalEnd
-                      ref={this.modalElement}
-                      show={this.state.modalShow}
-                      onHide={() => this.setModalShow(false)}
-                      id={this.state.id}
-                      name={this.state.name}
-                      email={this.state.email}
-                      phone={this.state.phone}
-                      store_name={this.state.storeName}
-                      store_category={this.state.storeCategory}
-                      store_address={this.state.storeAddress}
-                      url_photo={this.state.urlPhoto}
-                    />
-                  </div>
+                  <ModalEnd
+                    ref={this.modalElement}
+                    show={this.state.modalShow}
+                    onHide={() => this.setModalShow(false)}
+                    id={this.state.id}
+                    name={this.state.name}
+                    email={this.state.email}
+                    phone={this.state.phone}
+                    store_name={this.state.storeName}
+                    store_category={this.state.storeCategory}
+                    store_address={this.state.storeAddress}
+                    url_photo={this.state.urlPhoto}
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

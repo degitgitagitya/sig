@@ -9,3 +9,92 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.prediksi-button {
+  display: inline-block;
+  border: none;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  background-color: #0ba6ff;
+  color: white;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+  border-radius: 5px;
+}
+
+.prediksi-button:hover {
+  cursor: pointer;
+  background-color: #1183ca;
+}
+
+.prediksi-button-icon {
+  margin-right: 1rem;
+}
+
+.content-container {
+  margin-left: 250px;
+  padding-left: 1.25rem;
+  padding-top: 1.25rem;
+  color: #111111;
+}
+
+.content-icon-container {
+  display: inline-block;
+  margin-right: 1.25rem;
+}
+
+.content-icon {
+  font-size: 2rem;
+}
+
+.content-text-container {
+  display: inline-block;
+}
+
+.content-title {
+  font-size: 2rem;
+}
+
+.content-desc {
+  font-size: 1rem;
+  font-weight: 100;
+  font-style: italic;
+  color: #777777;
+}
+
+.content-box {
+  width: 99%;
+  background-color: white;
+  border: solid whitesmoke 2px;
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+  margin-bottom: 1.25rem;
+}
+
+.modal-custom {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  right: 25%;
+  background-color: white;
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
+    0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
+    0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
+    0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+  padding: 1.25rem;
+}
+
+.modal-overlay-custom {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}

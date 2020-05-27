@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Authentication from "./Contexts/Authentication";
+import { ProtectedRoute } from "./Components/ProtectedRoute";
 
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Analisis from "./Pages/Analisis";
 import Prediksi from "./Pages/Prediksi";
 import NotFound from "./Pages/NotFound";
-import { ProtectedRoute } from "./Components/ProtectedRoute";
+import DetailBarang from "./Pages/DetailBarang";
 
 export default class App extends Component {
   render() {
@@ -32,6 +33,11 @@ export default class App extends Component {
               path="/prediksi"
               component={Prediksi}
             ></ProtectedRoute>
+            <DetailBarang
+              exact
+              path="/detail-barang"
+              component={DetailBarang}
+            ></DetailBarang>
             <Route path="*" component={() => <NotFound />} />
           </Switch>
         </Authentication>

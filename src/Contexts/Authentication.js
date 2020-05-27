@@ -4,21 +4,21 @@ export const AuthContext = createContext();
 
 export default class Authentication extends Component {
   state = {
-    isAuth: false,
-    username: ""
+    isAuth: true,
+    username: "",
   };
 
   changeAuthToFalse = () => {
     this.setState({
       isAuth: false,
-      username: ""
+      username: "",
     });
   };
 
-  changeAuthToTrue = username => {
+  changeAuthToTrue = (username) => {
     this.setState({
       isAuth: true,
-      username: username
+      username: username,
     });
   };
 
@@ -28,7 +28,7 @@ export default class Authentication extends Component {
         value={{
           ...this.state,
           changeAuthToFalse: this.changeAuthToFalse,
-          changeAuthToTrue: this.changeAuthToTrue
+          changeAuthToTrue: this.changeAuthToTrue,
         }}
       >
         {this.props.children}

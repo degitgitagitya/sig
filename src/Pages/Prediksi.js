@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
 
-import SideBar from "../Components/SideBar";
+import Container from "../Components/Container";
 import ReactTable from "../Components/ReactTable";
 
 import { AuthContext } from "../Contexts/Authentication";
@@ -13,32 +13,32 @@ class ModalEnd extends Component {
   state = {
     inputKode: "",
     inputBarang: "",
-    inputLokasi: ""
+    inputLokasi: "",
   };
 
   changeAllState = (kode, barang, lokasi) => {
     this.setState({
       inputKode: kode,
       inputBarang: barang,
-      inputLokasi: lokasi
+      inputLokasi: lokasi,
     });
   };
 
-  changeKode = event => {
+  changeKode = (event) => {
     this.setState({
-      inputKode: event.target.value
+      inputKode: event.target.value,
     });
   };
 
-  changeBarang = event => {
+  changeBarang = (event) => {
     this.setState({
-      inputBarang: event.target.value
+      inputBarang: event.target.value,
     });
   };
 
-  changeLokasi = event => {
+  changeLokasi = (event) => {
     this.setState({
-      inputLokasi: event.target.value
+      inputLokasi: event.target.value,
     });
   };
 
@@ -50,20 +50,20 @@ class ModalEnd extends Component {
       kode: kode,
       nama: nama,
       lokasi: lokasi,
-      username: username
+      username: username,
     });
 
     let requestOptions = {
       method: "PUT",
       headers: myHeaders,
       body: raw,
-      redirect: "follow"
+      redirect: "follow",
     };
 
     fetch(`http://127.0.0.1:5000/barang/${id}`, requestOptions)
-      .then(response => response.text())
-      .then(result => this.props.onHide())
-      .catch(error => console.log("error", error));
+      .then((response) => response.text())
+      .then((result) => this.props.onHide())
+      .catch((error) => console.log("error", error));
   };
 
   onClickAdd = () => {
@@ -74,27 +74,27 @@ class ModalEnd extends Component {
       kode: this.state.inputKode,
       nama: this.state.inputBarang,
       lokasi: this.state.inputLokasi,
-      username: this.props.username
+      username: this.props.username,
     });
 
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: "follow"
+      redirect: "follow",
     };
 
     fetch("http://127.0.0.1:5000/barang", requestOptions)
-      .then(response => response.text())
-      .then(result => {
+      .then((response) => response.text())
+      .then((result) => {
         this.setState({
           inputKode: "",
           inputBarang: "",
-          inputLokasi: ""
+          inputLokasi: "",
         });
         this.props.onHide();
       })
-      .catch(error => console.log("error", error));
+      .catch((error) => console.log("error", error));
   };
 
   handleKeyPressPrediksi = (event, check) => {
@@ -138,7 +138,7 @@ class ModalEnd extends Component {
             placeholder="Kode Barang"
             onChange={this.changeKode}
             value={this.state.inputKode}
-            onKeyPress={e => {
+            onKeyPress={(e) => {
               let x = "";
               if (this.props.isedit === "true") {
                 x = "edit";
@@ -155,7 +155,7 @@ class ModalEnd extends Component {
             placeholder="Nama Barang"
             onChange={this.changeBarang}
             value={this.state.inputBarang}
-            onKeyPress={e => {
+            onKeyPress={(e) => {
               let x = "";
               if (this.props.isedit === "true") {
                 x = "edit";
@@ -172,7 +172,7 @@ class ModalEnd extends Component {
             placeholder="Lokasi Pembelian"
             onChange={this.changeLokasi}
             value={this.state.inputLokasi}
-            onKeyPress={e => {
+            onKeyPress={(e) => {
               let x = "";
               if (this.props.isedit === "true") {
                 x = "edit";
@@ -228,7 +228,7 @@ class ModalEnd extends Component {
               this.setState({
                 inputKode: "",
                 inputBarang: "",
-                inputLokasi: ""
+                inputLokasi: "",
               });
               this.props.onHide();
             }}
@@ -256,23 +256,22 @@ export default class Prediksi extends Component {
         columns: [
           {
             Header: "No",
-            Cell: ({ row }) => <div>{row.index + 1}</div>
+            Cell: ({ row }) => <div>{row.index + 1}</div>,
           },
-          ,
           {
             Header: "Kode Barang",
             accessor: "kode",
-            sortType: "basic"
+            sortType: "basic",
           },
           {
             Header: "Nama",
             accessor: "nama",
-            sortType: "basic"
+            sortType: "basic",
           },
           {
             Header: "Lokasi",
             accessor: "lokasi",
-            sortType: "basic"
+            sortType: "basic",
           },
           {
             Header: "Action",
@@ -280,26 +279,26 @@ export default class Prediksi extends Component {
             Cell: ({ row }) => (
               <div>
                 <button
-                  className="prediksi-button-delete"
+                  className="btn btn-danger mr-2"
                   onClick={() => {
                     let requestOptions = {
                       method: "DELETE",
-                      redirect: "follow"
+                      redirect: "follow",
                     };
 
                     fetch(
                       `http://127.0.0.1:5000/barang/${row.original.id}`,
                       requestOptions
                     )
-                      .then(response => response.text())
-                      .then(result => this.fetchData())
-                      .catch(error => console.log("error", error));
+                      .then((response) => response.text())
+                      .then((result) => this.fetchData())
+                      .catch((error) => console.log("error", error));
                   }}
                 >
                   Delete
                 </button>
                 <button
-                  className="prediksi-button-edit"
+                  className="btn btn-warning mr-2"
                   onClick={() => {
                     this.setTempData(
                       row.original.id,
@@ -311,11 +310,21 @@ export default class Prediksi extends Component {
                 >
                   Edit
                 </button>
+                <button
+                  onClick={() => {
+                    this.props.history.push(
+                      `/detail-barang?id=${row.original.id}`
+                    );
+                  }}
+                  className="btn btn-success"
+                >
+                  View
+                </button>
               </div>
-            )
-          }
-        ]
-      }
+            ),
+          },
+        ],
+      },
     ],
     tableData: [],
     modalShow: false,
@@ -325,7 +334,7 @@ export default class Prediksi extends Component {
     tempId: "",
     tempKode: "",
     tempNama: "",
-    tempLokasi: ""
+    tempLokasi: "",
   };
 
   handleClickChangeChild = (kode, nama, lokasi) => {
@@ -337,24 +346,24 @@ export default class Prediksi extends Component {
       tempId: id,
       tempKode: kode,
       tempNama: nama,
-      tempLokasi: lokasi
+      tempLokasi: lokasi,
     });
     this.handleClickChangeChild(kode, nama, lokasi);
     this.setModalShowEdit(true);
   };
 
-  setModalShowEdit = x => {
+  setModalShowEdit = (x) => {
     this.setState({
-      modalShowEdit: x
+      modalShowEdit: x,
     });
     if (x === false) {
       this.fetchData();
     }
   };
 
-  setModalShow = x => {
+  setModalShow = (x) => {
     this.setState({
-      modalShow: x
+      modalShow: x,
     });
     if (x === false) {
       this.fetchData();
@@ -366,75 +375,62 @@ export default class Prediksi extends Component {
   }
 
   fetchData = () => {
-    fetch(`http://127.0.0.1:5000/barangs/${this.context.username}`)
-      .then(response => {
+    // fetch(`http://127.0.0.1:5000/barangs/${this.context.username}`)
+    fetch(`http://127.0.0.1:5000/barangs/detya`)
+      .then((response) => {
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         this.setState({
-          tableData: data
+          tableData: data,
         });
       });
   };
 
   render() {
     return (
-      <div>
-        <SideBar />
-        <div className="content-container">
-          <div className="content-icon-container">
-            <i className="fas fa-search content-icon"></i>
+      <Container title={"Prediksi"} desc={"Halaman untuk mengatur barang"}>
+        <div className="content-box">
+          <div className="d-flex mb-3">
+            <button
+              className="prediksi-button"
+              onClick={() => this.setModalShow(true)}
+            >
+              <i className="fas fa-plus prediksi-button-icon"></i>Tambah Barang
+            </button>
+            <ModalEnd
+              username={this.context.username}
+              show={this.state.modalShow}
+              onHide={() => this.setModalShow(false)}
+              idbarang=""
+              kodebarang=""
+              namabarang=""
+              lokasibarang=""
+            />
+            <ModalEnd
+              ref={this.modalElement}
+              username={this.context.username}
+              show={this.state.modalShowEdit}
+              onHide={() => this.setModalShowEdit(false)}
+              idbarang={this.state.tempId}
+              kodebarang={this.state.tempKode}
+              namabarang={this.state.tempNama}
+              lokasibarang={this.state.tempLokasi}
+              isedit="true"
+            />
           </div>
-          <div className="content-text-container">
-            <div className="content-title">
-              /Prediksi{" "}
-              <span className="content-desc">Halaman Untuk Mengatur Data</span>
-            </div>
-          </div>
-          <div className="content-box">
-            <div className="prediksi-button-container">
-              <button
-                className="prediksi-button"
-                onClick={() => this.setModalShow(true)}
-              >
-                <i className="fas fa-plus prediksi-button-icon"></i>Tambah
-                Barang
-              </button>
-              <ModalEnd
-                username={this.context.username}
-                show={this.state.modalShow}
-                onHide={() => this.setModalShow(false)}
-                idbarang=""
-                kodebarang=""
-                namabarang=""
-                lokasibarang=""
-              />
-              <ModalEnd
-                ref={this.modalElement}
-                username={this.context.username}
-                show={this.state.modalShowEdit}
-                onHide={() => this.setModalShowEdit(false)}
-                idbarang={this.state.tempId}
-                kodebarang={this.state.tempKode}
-                namabarang={this.state.tempNama}
-                lokasibarang={this.state.tempLokasi}
-                isedit="true"
-              />
-            </div>
-            <ReactTable
-              head={this.state.tableHead}
-              body={this.state.tableData}
-              delete={this.deleteData}
-            ></ReactTable>
-            <div className="prediksi-button-container-bottom">
-              <button className="prediksi-button-bottom">
-                <i className="fas fa-angle-double-right prediksi-button-icon"></i>
-                Prediksi
-              </button>
-            </div>
+          <ReactTable
+            head={this.state.tableHead}
+            body={this.state.tableData}
+          ></ReactTable>
+          <div className="d-flex mt-3 justify-content-end">
+            <button className="prediksi-button">
+              <i className="fas fa-angle-double-right prediksi-button-icon"></i>
+              Prediksi
+            </button>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }
