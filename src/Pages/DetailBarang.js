@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactModal from "react-modal";
+import { CSVReader } from "react-papaparse";
 
 import Container from "../Components/Container";
 import ReactTable from "../Components/ReactTable";
@@ -59,6 +60,8 @@ export default class DetailBarang extends Component {
     tanggal: "",
     quantity: "",
     edit: false,
+    csvData: null,
+    errMsg: "",
   };
 
   onChangeTanggal = (event) => {
@@ -147,13 +150,16 @@ export default class DetailBarang extends Component {
       .catch((error) => console.log("error", error));
   };
 
-  handleDeleteButton = () => {
+  handleDeleteButton = (id) => {
     const requestOptions = {
       method: "DELETE",
       redirect: "follow",
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}/detail-barang/2`, requestOptions)
+    fetch(
+      `${process.env.REACT_APP_API_URL}/detail-barang/${id}`,
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => this.fetchData())
       .catch((error) => console.log("error", error));
@@ -189,6 +195,80 @@ export default class DetailBarang extends Component {
   componentDidMount() {
     this.fetchData();
   }
+
+  // Parser Method
+
+  handleOnDrop = (data) => {
+    let newData = [];
+    data.forEach((row) => {
+      newData.push(row.data);
+    });
+
+    this.setState({
+      csvData: newData,
+    });
+  };
+
+  handleOnError = (err, file, inputElem, reason) => {
+    this.setState({
+      errMsg: err,
+    });
+  };
+
+  handleOnRemoveFile = (data) => {
+    this.setState({
+      csvData: data,
+    });
+  };
+
+  handleUpload = () => {
+    if (this.state.csvData === null) {
+      this.setState({ errMsg: "Masukan CSV terlebih dahulu" });
+    } else {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({ data: this.state.csvData });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(
+        `${process.env.REACT_APP_API_URL}/detail-barang/upload/${this.state.idBarang}`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          this.setState({
+            body: result,
+          });
+        })
+        .catch((error) => this.fetchData());
+    }
+  };
+
+  handleDeleteAll = () => {
+    const requestOptions = {
+      method: "DELETE",
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.REACT_APP_API_URL}/detail-barang/delete-all/4`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) =>
+        this.setState({
+          body: result,
+        })
+      )
+      .catch((error) => console.log("error", error));
+  };
 
   render() {
     return (
@@ -252,11 +332,43 @@ export default class DetailBarang extends Component {
         <div className="content-box">
           {/* Content Button */}
 
-          <div className="d-flex mb-3">
+          <div className="align-items-center d-flex mb-3">
             <button onClick={this.openModalAdd} className="prediksi-button">
               <i className="fas fa-plus prediksi-button-icon"></i>Tambah Data
             </button>
+            <button
+              onClick={this.handleUpload}
+              className="btn btn-success ml-3"
+            >
+              <i className="fas fa-upload prediksi-button-icon"></i>
+              Upload From CSV
+            </button>
+            <div className="ml-3 text-danger">{this.state.errMsg}</div>
           </div>
+
+          <CSVReader
+            config={{
+              header: true,
+              skipEmptyLines: true,
+              fastMode: true,
+            }}
+            onDrop={this.handleOnDrop}
+            onError={this.handleOnError}
+            addRemoveButton
+            onRemoveFile={this.handleOnRemoveFile}
+          >
+            <span>Drop CSV file here or click to upload.</span>
+          </CSVReader>
+
+          <br />
+
+          <div className="d-flex">
+            <button onClick={this.handleDeleteAll} className="btn btn-danger">
+              <i className="fas fa-trash prediksi-button-icon"></i> Delete All
+            </button>
+          </div>
+
+          <br />
 
           {/* Content Table */}
 
