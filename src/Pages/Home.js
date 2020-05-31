@@ -323,7 +323,7 @@ export default class Home extends Component {
 
   render() {
     return (
-      <Container title={"Beranda"} desc={"Informasi General"}>
+      <Container title={"Beranda"} icon={"fa-home"} desc={"Informasi General"}>
         <div className="row">
           <div className="col-4">
             <div className="content-box">

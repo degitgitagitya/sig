@@ -68,9 +68,20 @@ export default class Prediksi extends Component {
                       `/detail-barang?id=${row.original.id}`
                     );
                   }}
-                  className="btn btn-success"
+                  className="btn btn-success mr-2"
                 >
-                  View
+                  Detail Barang
+                </button>
+                <button
+                  onClick={() => {
+                    const { id, kode, nama, satuan, harga } = row.original;
+                    this.props.history.push(
+                      `/detail-prediksi?id=${id}&kode=${kode}&nama=${nama}&satuan=${satuan}&harga=${harga}`
+                    );
+                  }}
+                  className="btn btn-info"
+                >
+                  Detail Prediksi
                 </button>
               </div>
             ),
@@ -217,6 +228,19 @@ export default class Prediksi extends Component {
       .catch((error) => console.log("error", error));
   };
 
+  handlePrediksiButton = () => {
+    const requestOptions = {
+      method: "POST",
+      redirect: "follow",
+    };
+
+    // fetch(`${process.env.REACT_APP_API_URL}/prediksi-all/${this.context.username}`, requestOptions)
+    fetch(`${process.env.REACT_APP_API_URL}/prediksi-all/detya`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => this.fetchData())
+      .catch((error) => console.log("error", error));
+  };
+
   componentDidMount() {
     this.fetchData();
   }
@@ -242,7 +266,11 @@ export default class Prediksi extends Component {
 
   render() {
     return (
-      <Container title={"Prediksi"} desc={"Halaman untuk mengatur barang"}>
+      <Container
+        title={"Prediksi"}
+        icon={"fa-search"}
+        desc={"Halaman untuk mengatur barang"}
+      >
         {/* Modal */}
 
         <ReactModal
@@ -331,7 +359,10 @@ export default class Prediksi extends Component {
             body={this.state.tableData}
           ></ReactTable>
           <div className="d-flex mt-3 justify-content-end">
-            <button className="prediksi-button">
+            <button
+              onClick={this.handlePrediksiButton}
+              className="prediksi-button"
+            >
               <i className="fas fa-angle-double-right prediksi-button-icon"></i>
               Prediksi
             </button>

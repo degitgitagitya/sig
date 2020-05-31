@@ -258,7 +258,7 @@ export default class DetailBarang extends Component {
     };
 
     fetch(
-      `${process.env.REACT_APP_API_URL}/detail-barang/delete-all/4`,
+      `${process.env.REACT_APP_API_URL}/detail-barang/delete-all/${this.state.idBarang}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -274,6 +274,7 @@ export default class DetailBarang extends Component {
     return (
       <Container
         title={"Detail Barang"}
+        icon={"fa-search"}
         desc={"Halaman untuk mengatur data pada barang"}
       >
         {/* Moodal */}

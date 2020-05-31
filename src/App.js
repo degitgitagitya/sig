@@ -10,6 +10,7 @@ import Analisis from "./Pages/Analisis";
 import Prediksi from "./Pages/Prediksi";
 import NotFound from "./Pages/NotFound";
 import DetailBarang from "./Pages/DetailBarang";
+import DetailPrediksi from "./Pages/DetailPrediksi";
 
 export default class App extends Component {
   render() {
@@ -38,6 +39,11 @@ export default class App extends Component {
               path="/detail-barang"
               component={DetailBarang}
             ></DetailBarang>
+            <DetailPrediksi
+              exact
+              path="/detail-prediksi"
+              component={DetailPrediksi}
+            ></DetailPrediksi>
             <Route path="*" component={() => <NotFound />} />
           </Switch>
         </Authentication>

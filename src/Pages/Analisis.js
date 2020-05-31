@@ -39,7 +39,11 @@ export default class Analisis extends Component {
   static contextType = AuthContext;
   render() {
     return (
-      <Container title={"Analisis"} desc={"Visualisasi Data"}>
+      <Container
+        title={"Analisis"}
+        icon={"fa-chart-pie"}
+        desc={"Visualisasi Data"}
+      >
         <div className="row">
           <div className="col-6">
             <div className="content-box">
