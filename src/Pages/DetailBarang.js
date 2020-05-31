@@ -204,7 +204,8 @@ export default class DetailBarang extends Component {
           overlayClassName="modal-overlay-custom"
         >
           {/* Content Modal */}
-
+          {this.state.edit ? <h3>Edit Data</h3> : <h3>Tambah Data</h3>}
+          <hr />
           <div className="mb-3">
             <div>Tanggal</div>
             <input
@@ -214,7 +215,6 @@ export default class DetailBarang extends Component {
               type="date"
             />
           </div>
-
           <div className="mb-3">
             <div>Quantity</div>
             <input
@@ -224,9 +224,7 @@ export default class DetailBarang extends Component {
               type="number"
             />
           </div>
-
           {/* Button Modal */}
-
           <div className="d-flex justify-content-end">
             {this.state.edit ? (
               <button

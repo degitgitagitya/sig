@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal } from "react-bootstrap";
+import ReactModal from "react-modal";
 
 import Container from "../Components/Container";
 import ReactTable from "../Components/ReactTable";
@@ -9,245 +9,8 @@ import { AuthContext } from "../Contexts/Authentication";
 import "./Home.css";
 import "./Prediksi.css";
 
-class ModalEnd extends Component {
-  state = {
-    inputKode: "",
-    inputBarang: "",
-    inputLokasi: "",
-  };
-
-  changeAllState = (kode, barang, lokasi) => {
-    this.setState({
-      inputKode: kode,
-      inputBarang: barang,
-      inputLokasi: lokasi,
-    });
-  };
-
-  changeKode = (event) => {
-    this.setState({
-      inputKode: event.target.value,
-    });
-  };
-
-  changeBarang = (event) => {
-    this.setState({
-      inputBarang: event.target.value,
-    });
-  };
-
-  changeLokasi = (event) => {
-    this.setState({
-      inputLokasi: event.target.value,
-    });
-  };
-
-  onClickEdit = (id, kode, nama, lokasi, username) => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    let raw = JSON.stringify({
-      kode: kode,
-      nama: nama,
-      lokasi: lokasi,
-      username: username,
-    });
-
-    let requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch(`http://127.0.0.1:5000/barang/${id}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => this.props.onHide())
-      .catch((error) => console.log("error", error));
-  };
-
-  onClickAdd = () => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const raw = JSON.stringify({
-      kode: this.state.inputKode,
-      nama: this.state.inputBarang,
-      lokasi: this.state.inputLokasi,
-      username: this.props.username,
-    });
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch("http://127.0.0.1:5000/barang", requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        this.setState({
-          inputKode: "",
-          inputBarang: "",
-          inputLokasi: "",
-        });
-        this.props.onHide();
-      })
-      .catch((error) => console.log("error", error));
-  };
-
-  handleKeyPressPrediksi = (event, check) => {
-    if (event.key === "Enter") {
-      if (check === "edit") {
-        this.onClickEdit(
-          this.props.idbarang,
-          this.state.inputKode,
-          this.state.inputBarang,
-          this.state.inputLokasi,
-          this.props.username
-        );
-      } else {
-        this.onClickAdd();
-      }
-    }
-  };
-
-  render() {
-    return (
-      <Modal
-        {...this.props}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header className="bg-secondary">
-          <Modal.Title
-            className="text-light"
-            id="contained-modal-title-vcenter"
-          >
-            {this.props.isedit === "true" ? "Edit Barang" : "Tambah Barang"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <label htmlFor="kode">Kode Barang</label>
-          <input
-            id="kode"
-            type="text"
-            className="form-control mb-3"
-            placeholder="Kode Barang"
-            onChange={this.changeKode}
-            value={this.state.inputKode}
-            onKeyPress={(e) => {
-              let x = "";
-              if (this.props.isedit === "true") {
-                x = "edit";
-              }
-
-              this.handleKeyPressPrediksi(e, x);
-            }}
-          />
-          <label htmlFor="nama">Nama Barang</label>
-          <input
-            id="nama"
-            type="text"
-            className="form-control mb-3"
-            placeholder="Nama Barang"
-            onChange={this.changeBarang}
-            value={this.state.inputBarang}
-            onKeyPress={(e) => {
-              let x = "";
-              if (this.props.isedit === "true") {
-                x = "edit";
-              }
-
-              this.handleKeyPressPrediksi(e, x);
-            }}
-          />
-          <label htmlFor="lokasi">Lokasi Pembelian</label>
-          <input
-            id="lokasi"
-            type="text"
-            className="form-control "
-            placeholder="Lokasi Pembelian"
-            onChange={this.changeLokasi}
-            value={this.state.inputLokasi}
-            onKeyPress={(e) => {
-              let x = "";
-              if (this.props.isedit === "true") {
-                x = "edit";
-              }
-
-              this.handleKeyPressPrediksi(e, x);
-            }}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          {this.props.isedit === "true" ? (
-            <button
-              className="btn btn-warning text-white"
-              onClick={() => {
-                let kode;
-                let nama;
-                let lokasi;
-                if (this.state.inputKode === "") {
-                  kode = this.props.kodebarang;
-                } else {
-                  kode = this.state.inputKode;
-                }
-                if (this.state.inputBarang === "") {
-                  nama = this.props.namabarang;
-                } else {
-                  nama = this.state.inputBarang;
-                }
-                if (this.state.inputLokasi === "") {
-                  lokasi = this.props.lokasibarang;
-                } else {
-                  lokasi = this.state.inputLokasi;
-                }
-                this.onClickEdit(
-                  this.props.idbarang,
-                  kode,
-                  nama,
-                  lokasi,
-                  this.props.username
-                );
-              }}
-            >
-              Edit
-            </button>
-          ) : (
-            <button className="btn btn-success" onClick={this.onClickAdd}>
-              Add
-            </button>
-          )}
-
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              this.setState({
-                inputKode: "",
-                inputBarang: "",
-                inputLokasi: "",
-              });
-              this.props.onHide();
-            }}
-          >
-            Cancel
-          </button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
-
 export default class Prediksi extends Component {
   static contextType = AuthContext;
-
-  constructor(props) {
-    super(props);
-    this.modalElement = React.createRef();
-  }
 
   state = {
     tableHead: [
@@ -269,8 +32,13 @@ export default class Prediksi extends Component {
             sortType: "basic",
           },
           {
-            Header: "Lokasi",
-            accessor: "lokasi",
+            Header: "Satuan",
+            accessor: "satuan",
+            sortType: "basic",
+          },
+          {
+            Header: "Harga Per Satuan",
+            accessor: "harga",
             sortType: "basic",
           },
           {
@@ -281,18 +49,7 @@ export default class Prediksi extends Component {
                 <button
                   className="btn btn-danger mr-2"
                   onClick={() => {
-                    let requestOptions = {
-                      method: "DELETE",
-                      redirect: "follow",
-                    };
-
-                    fetch(
-                      `http://127.0.0.1:5000/barang/${row.original.id}`,
-                      requestOptions
-                    )
-                      .then((response) => response.text())
-                      .then((result) => this.fetchData())
-                      .catch((error) => console.log("error", error));
+                    this.handleDeleteButton(row.original.id);
                   }}
                 >
                   Delete
@@ -300,12 +57,7 @@ export default class Prediksi extends Component {
                 <button
                   className="btn btn-warning mr-2"
                   onClick={() => {
-                    this.setTempData(
-                      row.original.id,
-                      row.original.kode,
-                      row.original.nama,
-                      row.original.lokasi
-                    );
+                    this.openModalEdit(row.original);
                   }}
                 >
                   Edit
@@ -327,47 +79,142 @@ export default class Prediksi extends Component {
       },
     ],
     tableData: [],
-    modalShow: false,
-    setModalShow: false,
-    modalShowEdit: false,
-    setModalShowEdit: false,
+    showModal: false,
+    edit: false,
     tempId: "",
     tempKode: "",
     tempNama: "",
-    tempLokasi: "",
+    tempSatuan: "",
+    tempHarga: "",
   };
 
-  handleClickChangeChild = (kode, nama, lokasi) => {
-    this.modalElement.current.changeAllState(kode, nama, lokasi);
-  };
-
-  setTempData = (id, kode, nama, lokasi) => {
+  onChangeId = (event) => {
     this.setState({
-      tempId: id,
-      tempKode: kode,
-      tempNama: nama,
-      tempLokasi: lokasi,
+      tempId: event.target.value,
     });
-    this.handleClickChangeChild(kode, nama, lokasi);
-    this.setModalShowEdit(true);
   };
 
-  setModalShowEdit = (x) => {
+  onChangeKode = (event) => {
     this.setState({
-      modalShowEdit: x,
+      tempKode: event.target.value,
     });
-    if (x === false) {
-      this.fetchData();
-    }
   };
 
-  setModalShow = (x) => {
+  onChangeNama = (event) => {
     this.setState({
-      modalShow: x,
+      tempNama: event.target.value,
     });
-    if (x === false) {
-      this.fetchData();
-    }
+  };
+
+  onChangeSatuan = (event) => {
+    this.setState({
+      tempSatuan: event.target.value,
+    });
+  };
+
+  onChangeHarga = (event) => {
+    this.setState({
+      tempHarga: event.target.value,
+    });
+  };
+
+  openModalAdd = () => {
+    this.setState({
+      showModal: true,
+      edit: false,
+    });
+  };
+
+  openModalEdit = (data) => {
+    this.setState({
+      showModal: true,
+      edit: true,
+      tempId: data.id,
+      tempKode: data.kode,
+      tempNama: data.nama,
+      tempSatuan: data.satuan,
+      tempHarga: data.harga,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      showModal: false,
+      tempId: "",
+      tempKode: "",
+      tempNama: "",
+      tempSatuan: "",
+      tempHarga: "",
+    });
+  };
+
+  handleAddButton = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      kode: this.state.tempKode,
+      nama: this.state.tempNama,
+      satuan: this.state.tempSatuan,
+      // username: this.context.username,
+      username: "detya",
+      harga: this.state.tempHarga,
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.REACT_APP_API_URL}/barang`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        this.fetchData();
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  handleDeleteButton = (id) => {
+    const requestOptions = {
+      method: "DELETE",
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.REACT_APP_API_URL}/barang/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => this.fetchData())
+      .catch((error) => console.log("error", error));
+  };
+
+  handleEditButton = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      kode: this.state.tempKode,
+      nama: this.state.tempNama,
+      satuan: this.state.tempSatuan,
+      // username: this.context.username,
+      username: "detya",
+      harga: this.state.tempHarga,
+    });
+
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.REACT_APP_API_URL}/barang/${this.state.tempId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => this.fetchData())
+      .catch((error) => console.log("error", error));
   };
 
   componentDidMount() {
@@ -375,14 +222,20 @@ export default class Prediksi extends Component {
   }
 
   fetchData = () => {
-    // fetch(`http://127.0.0.1:5000/barangs/${this.context.username}`)
-    fetch(`http://127.0.0.1:5000/barangs/detya`)
+    // fetch(`${process.env.REACT_APP_API_URL}/barangs/${this.context.username}`)
+    fetch(`${process.env.REACT_APP_API_URL}/barangs/detya`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         this.setState({
           tableData: data,
+          showModal: false,
+          tempId: "",
+          tempKode: "",
+          tempNama: "",
+          tempSatuan: "",
+          tempHarga: "",
         });
       });
   };
@@ -390,34 +243,88 @@ export default class Prediksi extends Component {
   render() {
     return (
       <Container title={"Prediksi"} desc={"Halaman untuk mengatur barang"}>
+        {/* Modal */}
+
+        <ReactModal
+          isOpen={this.state.showModal}
+          className="modal-custom"
+          overlayClassName="modal-overlay-custom"
+        >
+          {/* Content Modal */}
+
+          {this.state.edit ? <h3>Edit Data</h3> : <h3>Tambah Data</h3>}
+
+          <hr />
+
+          <div className="mb-3">
+            <div>Kode Barang</div>
+            <input
+              onChange={this.onChangeKode}
+              value={this.state.tempKode}
+              className="form-control w-100"
+              type="text"
+            />
+          </div>
+
+          <div className="mb-3">
+            <div>Nama</div>
+            <input
+              onChange={this.onChangeNama}
+              value={this.state.tempNama}
+              className="form-control w-100"
+              type="text"
+            />
+          </div>
+
+          <div className="mb-3">
+            <div>Satuan</div>
+            <input
+              onChange={this.onChangeSatuan}
+              value={this.state.tempSatuan}
+              className="form-control"
+              type="text"
+            />
+          </div>
+
+          <div className="mb-3">
+            <div>Harga</div>
+            <input
+              onChange={this.onChangeHarga}
+              value={this.state.tempHarga}
+              className="form-control"
+              type="number"
+            />
+          </div>
+
+          {/* Button Modal */}
+
+          <div className="d-flex justify-content-end">
+            {this.state.edit ? (
+              <button
+                onClick={this.handleEditButton}
+                className="btn btn-warning"
+              >
+                Edit
+              </button>
+            ) : (
+              <button
+                onClick={this.handleAddButton}
+                className="btn btn-success"
+              >
+                Tambahkan
+              </button>
+            )}
+            <button onClick={this.closeModal} className="ml-2 btn btn-danger">
+              Cancel
+            </button>
+          </div>
+        </ReactModal>
+
         <div className="content-box">
           <div className="d-flex mb-3">
-            <button
-              className="prediksi-button"
-              onClick={() => this.setModalShow(true)}
-            >
+            <button className="prediksi-button" onClick={this.openModalAdd}>
               <i className="fas fa-plus prediksi-button-icon"></i>Tambah Barang
             </button>
-            <ModalEnd
-              username={this.context.username}
-              show={this.state.modalShow}
-              onHide={() => this.setModalShow(false)}
-              idbarang=""
-              kodebarang=""
-              namabarang=""
-              lokasibarang=""
-            />
-            <ModalEnd
-              ref={this.modalElement}
-              username={this.context.username}
-              show={this.state.modalShowEdit}
-              onHide={() => this.setModalShowEdit(false)}
-              idbarang={this.state.tempId}
-              kodebarang={this.state.tempKode}
-              namabarang={this.state.tempNama}
-              lokasibarang={this.state.tempLokasi}
-              isedit="true"
-            />
           </div>
           <ReactTable
             head={this.state.tableHead}
