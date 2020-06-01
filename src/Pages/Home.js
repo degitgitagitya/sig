@@ -7,6 +7,8 @@ import Container from "../Components/Container";
 import "./Home.css";
 
 class ModalEnd extends Component {
+  static contextType = AuthContext;
+
   state = {
     inputNamaPemilik: "",
     inputEmail: "",
@@ -120,7 +122,7 @@ class ModalEnd extends Component {
     };
 
     fetch(
-      `${process.env.REACT_APP_API_URL}/information/${this.props.id}`,
+      `${process.env.REACT_APP_API_URL}/information/${this.context.username}`,
       requestOptions
     )
       .then((response) => response.json())
