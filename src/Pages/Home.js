@@ -15,9 +15,19 @@ class ModalEnd extends Component {
     inputNamaUmkm: "",
     inputKategori: "",
     inputAlamat: "",
+    inputCycle: "",
   };
 
-  changeAllState = (nama, email, telfon, url, namaUmkm, kategori, alamat) => {
+  changeAllState = (
+    nama,
+    email,
+    telfon,
+    url,
+    namaUmkm,
+    kategori,
+    alamat,
+    cycle
+  ) => {
     this.setState({
       inputNamaPemilik: nama,
       inputEmail: email,
@@ -26,6 +36,7 @@ class ModalEnd extends Component {
       inputNamaUmkm: namaUmkm,
       inputKategori: kategori,
       inputAlamat: alamat,
+      inputCycle: cycle,
     });
   };
 
@@ -71,6 +82,12 @@ class ModalEnd extends Component {
     });
   };
 
+  changeInputCycle = (event) => {
+    this.setState({
+      inputCycle: event.target.value,
+    });
+  };
+
   onClickEdit = () => {
     let nama = this.state.inputNamaPemilik;
     let email = this.state.inputEmail;
@@ -79,6 +96,7 @@ class ModalEnd extends Component {
     let store_category = this.state.inputKategori;
     let store_address = this.state.inputAlamat;
     let url_photo = this.state.inputUrl;
+    let cycle = this.state.inputCycle;
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -91,6 +109,7 @@ class ModalEnd extends Component {
       store_category: store_category,
       store_name: store_name,
       url_photo: url_photo,
+      cycle: cycle,
     });
 
     const requestOptions = {
@@ -207,6 +226,17 @@ class ModalEnd extends Component {
                 value={this.state.inputAlamat}
                 onChange={this.changeInputAlamat}
               />
+              <label htmlFor="alamat-umkm" className="mt-3">
+                Belanja Setiap .. Hari
+              </label>
+              <input
+                id="alamat-umkm"
+                type="number"
+                className="form-control"
+                placeholder="Belanja Setiap .. Hari"
+                value={this.state.inputCycle}
+                onChange={this.changeInputCycle}
+              />
             </div>
           </div>
         </Modal.Body>
@@ -231,6 +261,7 @@ class ModalEnd extends Component {
                 inputKategori: "",
                 inputAlamat: "",
                 inputUrl: "",
+                inputCycle: "",
               });
               this.props.onHide();
             }}
@@ -260,6 +291,7 @@ export default class Home extends Component {
     storeCategory: "",
     storeAddress: "",
     urlPhoto: "",
+    cycle: "",
     modalShow: false,
     setModalShow: false,
   };
@@ -273,6 +305,7 @@ export default class Home extends Component {
       storeCategory,
       storeAddress,
       urlPhoto,
+      cycle,
     } = this.state;
     this.modalElement.current.changeAllState(
       name,
@@ -281,7 +314,8 @@ export default class Home extends Component {
       urlPhoto,
       storeName,
       storeCategory,
-      storeAddress
+      storeAddress,
+      cycle
     );
   };
 
@@ -315,6 +349,7 @@ export default class Home extends Component {
           storeCategory: result.store_category,
           storeAddress: result.store_address,
           urlPhoto: result.url_photo,
+          cycle: result.cycle,
         });
       })
       .catch((error) => console.log("error", error));
@@ -378,6 +413,12 @@ export default class Home extends Component {
                 <div className="home-label">Alamat</div>
                 <div className="home-label-content">
                   : {this.state.storeAddress}
+                </div>
+              </div>
+              <div className="home-sub-title-container">
+                <div className="home-label">Belanja Setiap</div>
+                <div className="home-label-content">
+                  : {this.state.cycle} Hari
                 </div>
               </div>
               <hr />
