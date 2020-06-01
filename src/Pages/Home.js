@@ -100,8 +100,11 @@ class ModalEnd extends Component {
       redirect: "follow",
     };
 
-    fetch(`http://127.0.0.1:5000/information/${this.props.id}`, requestOptions)
-      .then((response) => response.text())
+    fetch(
+      `${process.env.REACT_APP_API_URL}/information/${this.props.id}`,
+      requestOptions
+    )
+      .then((response) => response.json())
       .then((result) => this.props.onHide())
       .catch((error) => console.log("error", error));
   };
@@ -298,7 +301,7 @@ export default class Home extends Component {
     };
 
     fetch(
-      `http://127.0.0.1:5000/information/${this.context.username}`,
+      `${process.env.REACT_APP_API_URL}/information/${this.context.username}`,
       requestOptions
     )
       .then((response) => response.json())

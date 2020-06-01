@@ -11,35 +11,35 @@ class Login extends Component {
     inputUsername: "",
     inputPassword: "",
     error: false,
-    errorMsg: ""
+    errorMsg: "",
   };
 
-  setModalShow = x => {
+  setModalShow = (x) => {
     this.setState({
-      modalShow: x
+      modalShow: x,
     });
   };
 
-  onChangeUsername = event => {
+  onChangeUsername = (event) => {
     this.setState({
-      inputUsername: event.target.value
+      inputUsername: event.target.value,
     });
   };
 
-  onChangePassword = event => {
+  onChangePassword = (event) => {
     this.setState({
-      inputPassword: event.target.value
+      inputPassword: event.target.value,
     });
   };
 
   handleClickLogin = () => {
     fetch(
-      `http://127.0.0.1:5000/auth/${this.state.inputUsername}/${this.state.inputPassword}`
+      `${process.env.REACT_APP_API_URL}/auth/${this.state.inputUsername}/${this.state.inputPassword}`
     )
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         if (Object.entries(data).length === 0 && data.constructor === Object) {
           this.toggleError("Wrong Username / Password");
         } else {
@@ -49,16 +49,16 @@ class Login extends Component {
       });
   };
 
-  handleKeyPress = event => {
+  handleKeyPress = (event) => {
     if (event.key === "Enter") {
       this.handleClickLogin();
     }
   };
 
-  toggleError = msg => {
+  toggleError = (msg) => {
     this.setState({
       error: true,
-      errorMsg: msg
+      errorMsg: msg,
     });
   };
 

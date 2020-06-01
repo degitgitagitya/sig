@@ -187,6 +187,7 @@ export default class DetailBarang extends Component {
           showModal: false,
           tanggal: "",
           quantity: "",
+          csvData: null,
         });
       })
       .catch((error) => console.log("error", error));
@@ -270,6 +271,10 @@ export default class DetailBarang extends Component {
       .catch((error) => console.log("error", error));
   };
 
+  downloadCSV = () => {
+    window.open(`${process.env.REACT_APP_API_URL}/file/detail`, "_blank");
+  };
+
   render() {
     return (
       <Container
@@ -336,6 +341,10 @@ export default class DetailBarang extends Component {
           <div className="align-items-center d-flex mb-3">
             <button onClick={this.openModalAdd} className="prediksi-button">
               <i className="fas fa-plus prediksi-button-icon"></i>Tambah Data
+            </button>
+            <button onClick={this.downloadCSV} className="ml-3 btn btn-dark">
+              <i className="fas fa-download prediksi-button-icon"></i> Download
+              Contoh CSV
             </button>
             <button
               onClick={this.handleUpload}

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactModal from "react-modal";
+import { CSVReader } from "react-papaparse";
 
 import Container from "../Components/Container";
 import ReactTable from "../Components/ReactTable";
@@ -97,6 +98,8 @@ export default class Prediksi extends Component {
     tempNama: "",
     tempSatuan: "",
     tempHarga: "",
+    errMsg: "",
+    csvData: null,
   };
 
   onChangeId = (event) => {
@@ -167,8 +170,7 @@ export default class Prediksi extends Component {
       kode: this.state.tempKode,
       nama: this.state.tempNama,
       satuan: this.state.tempSatuan,
-      // username: this.context.username,
-      username: "detya",
+      username: this.context.username,
       harga: this.state.tempHarga,
     });
 
@@ -207,8 +209,7 @@ export default class Prediksi extends Component {
       kode: this.state.tempKode,
       nama: this.state.tempNama,
       satuan: this.state.tempSatuan,
-      // username: this.context.username,
-      username: "detya",
+      username: this.context.username,
       harga: this.state.tempHarga,
     });
 
@@ -234,8 +235,10 @@ export default class Prediksi extends Component {
       redirect: "follow",
     };
 
-    // fetch(`${process.env.REACT_APP_API_URL}/prediksi-all/${this.context.username}`, requestOptions)
-    fetch(`${process.env.REACT_APP_API_URL}/prediksi-all/detya`, requestOptions)
+    fetch(
+      `${process.env.REACT_APP_API_URL}/prediksi-all/${this.context.username}`,
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => this.fetchData())
       .catch((error) => console.log("error", error));
@@ -246,8 +249,7 @@ export default class Prediksi extends Component {
   }
 
   fetchData = () => {
-    // fetch(`${process.env.REACT_APP_API_URL}/barangs/${this.context.username}`)
-    fetch(`${process.env.REACT_APP_API_URL}/barangs/detya`)
+    fetch(`${process.env.REACT_APP_API_URL}/barangs/${this.context.username}`)
       .then((response) => {
         return response.json();
       })
@@ -260,8 +262,88 @@ export default class Prediksi extends Component {
           tempNama: "",
           tempSatuan: "",
           tempHarga: "",
+          errMsg: "",
+          csvData: null,
         });
       });
+  };
+
+  // Parser Method
+
+  handleOnDrop = (data) => {
+    let newData = [];
+    data.forEach((row) => {
+      newData.push(row.data);
+    });
+
+    this.setState({
+      csvData: newData,
+    });
+  };
+
+  handleOnError = (err, file, inputElem, reason) => {
+    this.setState({
+      errMsg: err,
+    });
+  };
+
+  handleOnRemoveFile = (data) => {
+    this.setState({
+      csvData: data,
+    });
+  };
+
+  handleUpload = () => {
+    if (this.state.csvData === null) {
+      this.setState({ errMsg: "Masukan CSV terlebih dahulu" });
+    } else {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({ data: this.state.csvData });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(
+        `${process.env.REACT_APP_API_URL}/barang/upload/${this.context.username}`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          this.setState({
+            tableData: result,
+          });
+        })
+        .catch((error) => this.fetchData());
+    }
+  };
+
+  downloadCSV = () => {
+    window.open(`${process.env.REACT_APP_API_URL}/file/barang`, "_blank");
+  };
+
+  handleDeleteAll = () => {
+    const requestOptions = {
+      method: "DELETE",
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.REACT_APP_API_URL}/barang/delete-all/${this.context.username}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        this.setState({
+          tableData: result,
+        });
+      })
+      .catch((error) => console.log("error", error));
   };
 
   render() {
@@ -353,7 +435,41 @@ export default class Prediksi extends Component {
             <button className="prediksi-button" onClick={this.openModalAdd}>
               <i className="fas fa-plus prediksi-button-icon"></i>Tambah Barang
             </button>
+            <button onClick={this.downloadCSV} className="ml-3 btn btn-dark">
+              <i className="fas fa-download prediksi-button-icon"></i> Download
+              Contoh CSV
+            </button>
+            <button
+              onClick={this.handleUpload}
+              className="btn btn-success ml-3"
+            >
+              <i className="fas fa-upload prediksi-button-icon"></i>
+              Upload From CSV
+            </button>
+            <div className="ml-3 text-danger">{this.state.errMsg}</div>
           </div>
+          <CSVReader
+            config={{
+              header: true,
+              skipEmptyLines: true,
+              fastMode: true,
+            }}
+            onDrop={this.handleOnDrop}
+            onError={this.handleOnError}
+            addRemoveButton
+            onRemoveFile={this.handleOnRemoveFile}
+          >
+            <span>Drop CSV file here or click to upload.</span>
+          </CSVReader>
+          <br />
+
+          <div className="d-flex">
+            <button onClick={this.handleDeleteAll} className="btn btn-danger">
+              <i className="fas fa-trash prediksi-button-icon"></i> Delete All
+            </button>
+          </div>
+
+          <br />
           <ReactTable
             head={this.state.tableHead}
             body={this.state.tableData}

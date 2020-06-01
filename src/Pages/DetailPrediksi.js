@@ -7,10 +7,10 @@ export default class DetailPrediksi extends Component {
   state = {
     tableHead: [
       {
-        Header: "Data Barang",
+        Header: "Data Prediksi Harian",
         columns: [
           {
-            Header: "No",
+            Header: "Hari Ke",
             Cell: ({ row }) => <div>{row.index + 1}</div>,
           },
           {
@@ -27,6 +27,7 @@ export default class DetailPrediksi extends Component {
     namaBarang: "",
     satuanBarang: "",
     hargaBarang: "",
+    jumlahBarang: "",
   };
 
   componentDidMount() {
@@ -53,6 +54,10 @@ export default class DetailPrediksi extends Component {
     )
       .then((response) => response.json())
       .then((result) => {
+        let total = 0;
+        result.forEach((data) => {
+          total = total + data.quantity;
+        });
         this.setState({
           tableData: result,
           idBarang: idBarang,
@@ -60,12 +65,15 @@ export default class DetailPrediksi extends Component {
           namaBarang: namaBarang,
           satuanBarang: satuanBarang,
           hargaBarang: hargaBarang,
+          jumlahBarang: total,
         });
       })
       .catch((error) => console.log("error", error));
   };
 
   render() {
+    const totalBelanja =
+      Math.round(this.state.jumlahBarang) * this.state.hargaBarang;
     return (
       <Container
         title={"Detail Prediksi"}
@@ -74,11 +82,40 @@ export default class DetailPrediksi extends Component {
       >
         {/* Content */}
         <div className="content-box">
-          <div>Kode barang : {this.state.kodeBarang}</div>
-          <div>Nama barang : {this.state.namaBarang}</div>
-          <div>Satuan : {this.state.satuanBarang}</div>
-          <div>Harga : {this.state.hargaBarang}</div>
-          <br />
+          <div>
+            <span className="font-weight-bold"> Kode barang </span>:{" "}
+            {this.state.kodeBarang}
+          </div>
+          <div>
+            <span className="font-weight-bold"> Nama barang </span>:{" "}
+            {this.state.namaBarang}
+          </div>
+          <div>
+            <span className="font-weight-bold"> Satuan </span>:{" "}
+            {this.state.satuanBarang}
+          </div>
+          <div>
+            <span className="font-weight-bold"> Harga </span>: Rp.{" "}
+            {this.state.hargaBarang} ,-
+          </div>
+          <hr />
+          <div>
+            Jumlah yang harus dibeli pada pembelanjaan selanjutnya adalah{" "}
+            <span className="font-weight-bold">
+              {Math.round(this.state.jumlahBarang)} {this.state.satuanBarang}
+            </span>
+          </div>
+          <div>
+            Dengan harga{" "}
+            <span className="font-weight-bold">
+              Rp.{" "}
+              {totalBelanja
+                .toString()
+                .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}{" "}
+              ,-
+            </span>
+          </div>
+          <hr />
           <ReactTable
             head={this.state.tableHead}
             body={this.state.tableData}
