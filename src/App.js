@@ -11,6 +11,7 @@ import Prediksi from "./Pages/Prediksi";
 import NotFound from "./Pages/NotFound";
 import DetailBarang from "./Pages/DetailBarang";
 import DetailPrediksi from "./Pages/DetailPrediksi";
+import Register from "./Pages/Register";
 
 export default class App extends Component {
   render() {
@@ -34,16 +35,17 @@ export default class App extends Component {
               path="/prediksi"
               component={Prediksi}
             ></ProtectedRoute>
-            <DetailBarang
+            <ProtectedRoute
               exact
               path="/detail-barang"
               component={DetailBarang}
-            ></DetailBarang>
-            <DetailPrediksi
+            ></ProtectedRoute>
+            <ProtectedRoute
               exact
               path="/detail-prediksi"
               component={DetailPrediksi}
-            ></DetailPrediksi>
+            ></ProtectedRoute>
+            <Register exact path="/register" component={Register}></Register>
             <Route path="*" component={() => <NotFound />} />
           </Switch>
         </Authentication>

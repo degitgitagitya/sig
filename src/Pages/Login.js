@@ -127,6 +127,17 @@ class Login extends Component {
                 >
                   Login
                 </button>
+                <div className="d-flex justify-content-center mt-3">
+                  <div>Belum Memiliki Akun?</div>
+                </div>
+                <button
+                  onClick={() => {
+                    this.props.history.push("/register");
+                  }}
+                  className="btn btn-outline-info form-control mt-3"
+                >
+                  Register
+                </button>
               </div>
             </div>
           </div>
