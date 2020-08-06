@@ -71,6 +71,30 @@ export default class DetailPrediksi extends Component {
       .catch((error) => console.log("error", error));
   };
 
+  fetchSecondaryData = () => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.REACT_APP_API_URL}/prediksi-new/${this.state.idBarang}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        let total = 0;
+        result.forEach((data) => {
+          total = total + data.quantity;
+        });
+        this.setState({
+          tableData: result,
+          jumlahBarang: total,
+        });
+      })
+      .catch((error) => console.log("error", error));
+  };
+
   render() {
     const totalBelanja =
       Math.round(this.state.jumlahBarang) * this.state.hargaBarang;
@@ -97,6 +121,18 @@ export default class DetailPrediksi extends Component {
           <div>
             <span className="font-weight-bold"> Harga </span>: Rp.{" "}
             {this.state.hargaBarang} ,-
+          </div>
+          <hr />
+          <div className="d-flex">
+            <button onClick={this.fetchData} className="btn btn-success mr-2">
+              Fixed AR
+            </button>
+            <button
+              onClick={this.fetchSecondaryData}
+              className="btn btn-secondary"
+            >
+              Rolling AR
+            </button>
           </div>
           <hr />
           <div>
