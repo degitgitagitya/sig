@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import Container from "../Components/Container";
 import ReactTable from "../Components/ReactTable";
+import { CSVReader } from "react-papaparse";
 
 export default class DetailPrediksi extends Component {
   state = {
@@ -28,6 +29,8 @@ export default class DetailPrediksi extends Component {
     satuanBarang: "",
     hargaBarang: "",
     jumlahBarang: "",
+    csvData: null,
+    errMsg: "",
   };
 
   componentDidMount() {
@@ -66,6 +69,8 @@ export default class DetailPrediksi extends Component {
           satuanBarang: satuanBarang,
           hargaBarang: hargaBarang,
           jumlahBarang: total,
+          rmseFixed: "",
+          rmseRolling: "",
         });
       })
       .catch((error) => console.log("error", error));
@@ -93,6 +98,66 @@ export default class DetailPrediksi extends Component {
         });
       })
       .catch((error) => console.log("error", error));
+  };
+
+  // Parser Method
+
+  handleOnDrop = (data) => {
+    let newData = [];
+    data.forEach((row) => {
+      newData.push(row.data);
+    });
+
+    this.setState({
+      csvData: newData,
+    });
+  };
+
+  handleOnError = (err, file, inputElem, reason) => {
+    this.setState({
+      errMsg: err,
+    });
+  };
+
+  handleOnRemoveFile = (data) => {
+    this.setState({
+      csvData: data,
+    });
+  };
+
+  handleUpload = () => {
+    if (this.state.csvData === null) {
+      this.setState({ errMsg: "Masukan CSV terlebih dahulu" });
+    } else {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({ data: this.state.csvData });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(
+        `${process.env.REACT_APP_API_URL}/rmse/${this.state.idBarang}`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          this.setState({
+            rmseFixed: result.rmse_fixed,
+            rmseRolling: result.rmse_rolling,
+          });
+        })
+        .catch((error) => this.fetchData());
+    }
+  };
+
+  downloadCSV = () => {
+    window.open(`${process.env.REACT_APP_API_URL}/file/rmse`, "_blank");
   };
 
   render() {
@@ -152,6 +217,38 @@ export default class DetailPrediksi extends Component {
             </span>
           </div>
           <hr />
+          <div className="d-flex align-items-center">
+            <button
+              onClick={() => {
+                this.handleUpload();
+              }}
+              className="btn btn-info mr-2"
+            >
+              Check RMSE
+            </button>
+            <div className="text-danger mr-2">{this.state.errMsg}</div>
+            <button onClick={this.downloadCSV} className="btn btn-dark">
+              Download Contoh CSV
+            </button>
+          </div>
+          <br />
+          <div>RMSE Fixed: {this.state.rmseFixed}</div>
+          <div>RMSE Rolling: {this.state.rmseRolling}</div>
+          <br />
+          <CSVReader
+            config={{
+              header: true,
+              skipEmptyLines: true,
+              fastMode: true,
+            }}
+            onDrop={this.handleOnDrop}
+            onError={this.handleOnError}
+            addRemoveButton
+            onRemoveFile={this.handleOnRemoveFile}
+          >
+            <span>Drop CSV file here or click to upload to check RMSE.</span>
+          </CSVReader>
+          <br />
           <ReactTable
             head={this.state.tableHead}
             body={this.state.tableData}
