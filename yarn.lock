@@ -1338,6 +1338,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.1.tgz#238eb34a66431b71d2aaddeaa7db166f25971a0d"
   integrity sha512-Zq8gcQGmn4txQEJeiXo/KiLpon8TzAl0kmKH4zdWctPj05nWwp1ClMdAVEloqrQKfaC48PNLdgN/aVaLqUrluA==
 
+"@types/papaparse@^5.0.4":
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.2.5.tgz#9d3cd9d932eb0dccda9e3f73f39996c4da3fa628"
+  integrity sha512-TlqGskBad6skAgx2ifQmkO/FwiwObuWltBvX2bDceQhXh9IyZ7jYCK7qwhjB67kxw+0LJDXXM4jN3lcGqm1g5w==
+  dependencies:
+    "@types/node" "*"
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -4013,6 +4020,11 @@ execa@^1.0.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
+
 exit@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
@@ -4771,9 +4783,9 @@ hoist-non-react-statics@^3.1.0:
     react-is "^16.7.0"
 
 hosted-git-info@^2.1.4:
-  version "2.8.5"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.5.tgz#759cfcf2c4d156ade59b0b2dfabddc42a6b9c70c"
-  integrity sha512-kssjab8CvdXfcXMXVcvsXum4Hwdq9XGtRD3TteMEvEbq0LXyiNQr6AprqKqfeaDXze7SxWvRxdpwE6ku7ikLkg==
+  version "2.8.9"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
+  integrity sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==
 
 hpack.js@^2.1.6:
   version "2.1.6"
@@ -7125,6 +7137,11 @@ pako@~1.0.5:
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
   integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
 
+papaparse@^5.2.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-5.3.0.tgz#ab1702feb96e79ab4309652f36db9536563ad05a"
+  integrity sha512-Lb7jN/4bTpiuGPrYy4tkKoUS8sTki8zacB5ke1p5zolhcSE4TlWgrlsxjrDTbG/dFVh07ck7X36hUf/b5V68pg==
+
 parallel-transform@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/parallel-transform/-/parallel-transform-1.2.0.tgz#9049ca37d6cb2182c3b1d2c720be94d14a5814fc"
@@ -8152,7 +8169,7 @@ prop-types-extra@^1.1.0:
     react-is "^16.3.2"
     warning "^4.0.0"
 
-prop-types@^15.5.8, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8397,10 +8414,20 @@ react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
 
-react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-modal@^3.11.2:
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.13.1.tgz#a02dce63bbfee7582936f1e9835d518ef8f56453"
+  integrity sha512-m6yXK7I4YKssQnsjHK7xITSXy2O81BSOHOsg0/uWAsdKtuT9HF2tdoYhRuxNNQg2V+LgepsoHUPJKS8m6no+eg==
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.0"
+    warning "^4.0.3"
 
 react-overlays@^2.1.0:
   version "2.1.1"
@@ -8414,6 +8441,14 @@ react-overlays@^2.1.0:
     prop-types "^15.7.2"
     uncontrollable "^7.0.0"
     warning "^4.0.3"
+
+react-papaparse@^3.3.0:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/react-papaparse/-/react-papaparse-3.14.0.tgz#4b4e9981656d8e72889ae312d2781ca001b40c78"
+  integrity sha512-EfVJdyy9J4Ee4gS2qB9g5kPWLxlAnsguG6cpC+SHpVS2iVPoDqeUi9OTu8YwgFCoj5x+FF1o1S/lF/j5bfEmRA==
+  dependencies:
+    "@types/papaparse" "^5.0.4"
+    papaparse "^5.2.0"
 
 react-router-dom@^5.1.2:
   version "5.1.2"
